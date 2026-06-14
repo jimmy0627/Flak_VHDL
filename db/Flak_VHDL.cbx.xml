@@ -1,0 +1,9 @@
+<?xml version="1.0" ?>
+<LOG_ROOT>
+	<PROJECT NAME="Flak_VHDL">
+		<CBX_INST_ENTRY INSTANCE_NAME="|Flak_VHDL|Pixel_Renderer:render|lpm_mult:Mult0" CBX_FILE_NAME="mult_c4t.tdf"/>
+		<CBX_INST_ENTRY INSTANCE_NAME="|Flak_VHDL|Pixel_Renderer:render|lpm_mult:Mult1" CBX_FILE_NAME="mult_c4t.tdf"/>
+		<CBX_INST_ENTRY INSTANCE_NAME="|Flak_VHDL|Pixel_Renderer:render|lpm_mult:Mult2" CBX_FILE_NAME="mult_c4t.tdf"/>
+		<CBX_INST_ENTRY INSTANCE_NAME="|Flak_VHDL|Pixel_Renderer:render|lpm_mult:Mult3" CBX_FILE_NAME="mult_c4t.tdf"/>
+	</PROJECT>
+</LOG_ROOT>

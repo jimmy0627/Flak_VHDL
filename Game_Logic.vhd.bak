@@ -1,0 +1,136 @@
+-- ==========================================
+-- Game Logic
+-- ==========================================
+library ieee;
+use ieee.std_logic_1164.all;
+use ieee.numeric_std.all;
+
+entity Game_Logic is
+    port(
+        clk_50        : in  std_logic;
+        PS2_KBCLK     : in  std_logic; -- PS/2 鍵盤時脈
+        PS2_KBDAT     : in  std_logic; -- PS/2 鍵盤資料
+        turrent_angle : out integer;
+        planex, planey: out integer
+    );
+end Game_Logic;
+
+architecture a of Game_Logic is
+    component DownCounter is
+        generic( FREQ_HZ : integer );
+        port(
+            clk   : IN std_logic;
+            reset : IN std_logic;
+            index : OUT std_logic
+        );
+    end component;
+    
+    component ps2_keyboard is
+        GENERIC(
+            clk_freq              : INTEGER := 50_000_000; 
+            debounce_counter_size : INTEGER := 8
+        );
+        PORT(
+            clk          : IN  STD_LOGIC;
+            ps2_clk      : IN  STD_LOGIC;
+            ps2_data     : IN  STD_LOGIC;
+            ps2_code_new : OUT STD_LOGIC;
+            ps2_code     : OUT STD_LOGIC_VECTOR(7 DOWNTO 0)
+        );
+    END component;
+    
+    -- 內部 Signal 宣告
+    signal game_tick : std_logic; 
+    signal code         : STD_LOGIC_VECTOR(7 DOWNTO 0);
+    signal code_new     : std_logic;
+	signal is_e0    : std_logic := '0'; -- 記錄是否收到 E0 擴充碼
+    signal is_break : std_logic := '0'; -- 記錄是否收到 F0 斷碼 (放開按鍵)
+    
+    -- 宣告內部變數來儲存狀態
+    signal turrent_angle_int : integer := 45; -- 預設角度
+    signal planex_int        : integer := 640; -- 預設在螢幕右側
+    signal planey_int        : integer := 100; -- 預設高度
+    
+begin
+    -- 輸出連線
+    turrent_angle <= turrent_angle_int;
+    planex <= planex_int;
+    planey <= planey_int;
+
+    -- 除頻器
+    clk_div_60hz : DownCounter
+    generic map( FREQ_HZ => 60 )
+    port map(
+        clk   => clk_50,
+        reset => '1',
+        index => game_tick
+    );
+	
+	-- ps2_keyboard 模組
+	u_ps2 : ps2_keyboard
+	GENERIC map(
+		clk_freq              => 50_000_000, 
+		debounce_counter_size => 8
+	)
+	PORT map(
+		clk          => clk_50,
+		ps2_clk      => PS2_KBCLK,
+		ps2_data     => PS2_KBDAT,
+		ps2_code_new => code_new,
+		ps2_code     => code
+	);
+
+    -- 遊戲狀態更新 Process (使用主時脈同步，game_tick 當作致能)
+    process(clk_50)
+    begin
+        if rising_edge(clk_50) then
+            -- 處理鍵盤邏輯
+			if code_new = '1' then
+                if code = x"E0" then
+                    is_e0 <= '1';       -- 收到擴充碼前綴
+                elsif code = x"F0" then
+                    is_break <= '1';    -- 收到斷碼前綴
+                else
+                    if is_break = '0' then
+                        if is_e0 = '1' then
+                            case code is
+                                when x"75" => --上 (E0 75)
+                                    if turrent_angle_int <= 80 then
+                                        turrent_angle_int <= turrent_angle_int + 10;
+                                    else
+                                        turrent_angle_int <= 90;
+                                    end if;
+                                when x"72" => --下 (E0 72)
+                                    if turrent_angle_int >= 10 then
+                                        turrent_angle_int <= turrent_angle_int - 10;
+                                    else
+                                        turrent_angle_int <= 0;
+                                    end if;
+                                when others => 
+                                    null;
+                            end case;
+                        else
+                            case code is
+                                when x"29" => -- 空白鍵 (29)
+                                    -- firing 邏輯
+                                when others => 
+                                    null;
+                            end case;
+                        end if;
+                    end if;
+					-- 處理完這次的按鍵後，把前綴狀態清空，準備迎接下一個按鍵
+                    is_e0 <= '0';
+                    is_break <= '0';
+                end if;
+            end if;
+            --處理飛機座標更新
+            if game_tick = '1' then
+                -- 飛機向左飛
+					planex_int <= planex_int - 1;
+					if planex_int = 0 then
+						-- game over
+					end if;
+            end if;
+        end if;
+    end process;
+end a;

@@ -1,0 +1,135 @@
+-- ==========================================
+-- Top Level
+-- ==========================================
+library ieee;
+use ieee.std_logic_1164.all;
+use ieee.numeric_std.all;
+
+entity Flak_VHDL is
+    port(
+        CLOCK_50  : in  std_logic;
+        PS2_KBCLK : in  std_logic;
+        PS2_KBDAT : in  std_logic;
+        KEY       : in  std_logic_vector(2 downto 0);
+        VGA_HS    : out std_logic;
+        VGA_VS    : out std_logic;
+        VGA_R     : out std_logic_vector(3 downto 0);
+        VGA_G     : out std_logic_vector(3 downto 0);
+        VGA_B     : out std_logic_vector(3 downto 0);
+        LEDG      : out std_logic_vector(9 downto 0)
+    );
+end Flak_VHDL;
+
+architecture a of Flak_VHDL is
+    -- 宣告 VGA_sync
+    component VGA_sync is   
+        port(
+            CLOCK, RESET : in std_logic;
+            horiz_sync, vert_sync, video_on : out std_logic;
+            row_count : out INTEGER RANGE 0 TO 524;        
+            col_count : out INTEGER RANGE 0 TO 799
+        );
+    end component;
+    
+    -- 宣告 Game_Logic
+    component Game_Logic is
+        port(
+            clk_50        : in  std_logic;
+            PS2_KBCLK     : in  std_logic;
+            PS2_KBDAT     : in  std_logic;
+            turrent_angle : out integer;
+            planex, planey: out integer
+        );
+    end component;
+
+    component pixel_Renderer is
+	    port(
+        vga_clk      : in  std_logic;                    -- VGA 像素時脈 (例如 25MHz)
+        video_on     : in  std_logic;                    -- VGA 顯示區域致能訊號
+        pixel_x      : in  integer range 0 to 799;       -- 當前掃描像素 X 座標
+        pixel_y      : in  integer range 0 to 524;       -- 當前掃描像素 Y 座標
+        
+        -- 物件座標與狀態輸入
+        turret_angle : in  integer range 0 to 90;        -- 砲塔仰角 (0=右, 90=上)
+        plane_x      : in  integer;                      -- 飛機左上角 X 座標
+        plane_y      : in  integer;                      -- 飛機左上角 Y 座標
+        
+        -- VGA 顏色輸出 (4-bit per channel)
+        VGA_R        : out std_logic_vector(3 downto 0);
+        VGA_G        : out std_logic_vector(3 downto 0);
+        VGA_B        : out std_logic_vector(3 downto 0)
+    );
+	end component;
+    
+    component DownCounter is
+        generic( FREQ_HZ : integer );
+        port(
+            clk   : IN std_logic;
+            reset : IN std_logic;
+            index : OUT std_logic
+        );
+    end component;
+
+    -- 內部連線 Signal 宣告
+    signal vga_clk   : std_logic;
+    signal video_on  : std_logic;
+    signal pixel_x   : integer range 0 to 799;
+    signal pixel_y   : integer range 0 to 524;
+    signal sig_angle : integer;
+    signal sig_px    : integer;
+    signal sig_py    : integer;
+	signal vga_tick  : std_logic;
+	signal row      : integer range 0 to 524;
+    signal col      : integer range 0 to 799;
+
+begin
+    -- 除頻器
+    clk_div_60hz : DownCounter
+    generic map( FREQ_HZ => 25_000_000)
+    port map(
+        clk   => CLOCK_50,
+        reset => '1',
+        index => vga_tick
+    );
+
+    game_control: Game_Logic
+	port map(
+		clk_50        => CLOCK_50,
+		PS2_KBCLK     => PS2_KBCLK,
+		PS2_KBDAT     => PS2_KBDAT,
+		turret_angle  => sig_angle,
+		planex        => sig_px,
+		planey        => sig_py
+	);
+	
+
+	u_VGA_sync : VGA_sync
+	port map(
+		CLOCK      => vga_tick,
+		RESET      => '1',
+		horiz_sync => VGA_HS,
+		vert_sync  => VGA_VS,
+		video_on   => video_on,
+		row_count  => row,
+		col_count  => col
+	);
+
+    render : pixel_Renderer
+	port map(
+		vga_clk      => vga_tick,      -- VGA 像素時脈 (例如 25MHz)
+        video_on     => video_on,      -- VGA 顯示區域致能訊號
+        pixel_x      => col,       -- 當前掃描像素 X 座標
+        pixel_y      => row,       -- 當前掃描像素 Y 座標
+        
+        -- 物件座標與狀態輸入
+        turret_angle => sig_angle,     -- 砲塔仰角 (0=右, 90=上)
+        plane_x      => sig_px,        -- 飛機左上角 X 座標
+        plane_y      => sig_py,        -- 飛機左上角 Y 座標
+        
+        -- VGA 顏色輸出 (4-bit per channel)
+        VGA_R        => VGA_R,
+        VGA_G        => VGA_G,
+        VGA_B        => VGA_B
+	);
+
+end a;
