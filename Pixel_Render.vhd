@@ -12,7 +12,7 @@ use ieee.numeric_std.all;
 entity Pixel_Renderer is
     port(
         vga_clk      : in  std_logic;                    -- VGA 像素時脈 (例如 25MHz)
-        video_on     : in  std_logic;                    -- VGA 顯示區域致能訊號
+        video_on     : in  std_logic;                    -- VGA 顯示區域致能訊訊
         pixel_x      : in  integer range 0 to 799;       -- 當前掃描像素 X 座標
         pixel_y      : in  integer range 0 to 524;       -- 當前掃描像素 Y 座標
         
@@ -20,6 +20,9 @@ entity Pixel_Renderer is
         turret_angle : in  integer range 0 to 90;        -- 砲塔仰角 (0=右, 90=上)
         plane_x      : in  integer;                      -- 飛機左上角 X 座標
         plane_y      : in  integer;                      -- 飛機左上角 Y 座標
+        bullet_x     : in  integer;                      -- 砲彈 X 座標
+        bullet_y     : in  integer;                      -- 砲彈 Y 座標
+        bullet_active: in  std_logic;                    -- 砲彈啟用狀態
         
         -- VGA 顏色輸出 (4-bit per channel)
         VGA_R        : out std_logic_vector(3 downto 0);
@@ -112,8 +115,14 @@ architecture rtl of Pixel_Renderer is
     signal is_plane  : boolean; -- 當前像素是否屬於飛機
     signal is_barrel : boolean; -- 當前像素是否屬於砲管
     signal is_base   : boolean; -- 當前像素是否屬於底座
+    signal is_bullet : boolean; -- 當前像素是否屬於砲彈
 
 begin
+
+    -- [砲彈] 範圍判定 (尺寸設定為 4x4 像素)
+    is_bullet <= true when (bullet_active = '1') and
+                           (pixel_x >= bullet_x) and (pixel_x < bullet_x + 4) and
+                           (pixel_y >= bullet_y) and (pixel_y < bullet_y + 4) else false;
 
     -- [飛機] Bounding Box 判定
     is_plane <= true when (pixel_x >= plane_x) and (pixel_x < plane_x + SPRITE_SIZE) and
@@ -145,7 +154,9 @@ begin
             VGA_R <= x"0"; VGA_G <= x"0"; VGA_B <= x"0";
 
             if video_on = '1' then
-                if is_plane then
+                if is_bullet then
+                    VGA_R <= x"F"; VGA_G <= x"F"; VGA_B <= x"0"; -- 黃色砲彈
+                elsif is_plane then
                     local_dx := (pixel_x - plane_x) / SCALE;
                     local_dy := (pixel_y - plane_y) / SCALE;
 

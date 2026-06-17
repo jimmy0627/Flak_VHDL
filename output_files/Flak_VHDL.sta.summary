@@ -3,32 +3,32 @@ TimeQuest Timing Analyzer Summary
 ------------------------------------------------------------
 
 Type  : Slow 1200mV 85C Model Setup 'DownCounter:clk_div_60hz|twoHZ'
-Slack : -12.207
-TNS   : -162.818
+Slack : -11.900
+TNS   : -162.849
 
 Type  : Slow 1200mV 85C Model Setup 'CLOCK_50'
-Slack : -3.504
-TNS   : -299.295
+Slack : -5.918
+TNS   : -897.955
 
 Type  : Slow 1200mV 85C Model Setup 'Game_Logic:game_control|ps2_keyboard:u_ps2|debounce:debounce_ps2_clk|result'
-Slack : 0.052
+Slack : 0.070
 TNS   : 0.000
 
 Type  : Slow 1200mV 85C Model Hold 'CLOCK_50'
-Slack : 0.254
+Slack : 0.121
 TNS   : 0.000
 
 Type  : Slow 1200mV 85C Model Hold 'Game_Logic:game_control|ps2_keyboard:u_ps2|debounce:debounce_ps2_clk|result'
-Slack : 0.382
+Slack : 0.159
 TNS   : 0.000
 
 Type  : Slow 1200mV 85C Model Hold 'DownCounter:clk_div_60hz|twoHZ'
-Slack : 0.598
+Slack : 0.572
 TNS   : 0.000
 
 Type  : Slow 1200mV 85C Model Minimum Pulse Width 'CLOCK_50'
 Slack : -3.000
-TNS   : -170.000
+TNS   : -264.000
 
 Type  : Slow 1200mV 85C Model Minimum Pulse Width 'DownCounter:clk_div_60hz|twoHZ'
 Slack : -1.000
@@ -39,32 +39,32 @@ Slack : -1.000
 TNS   : -11.000
 
 Type  : Slow 1200mV 0C Model Setup 'DownCounter:clk_div_60hz|twoHZ'
-Slack : -10.724
-TNS   : -142.338
+Slack : -10.457
+TNS   : -141.594
 
 Type  : Slow 1200mV 0C Model Setup 'CLOCK_50'
-Slack : -3.006
-TNS   : -249.778
+Slack : -5.176
+TNS   : -778.699
 
 Type  : Slow 1200mV 0C Model Setup 'Game_Logic:game_control|ps2_keyboard:u_ps2|debounce:debounce_ps2_clk|result'
-Slack : 0.026
+Slack : 0.166
 TNS   : 0.000
 
 Type  : Slow 1200mV 0C Model Hold 'CLOCK_50'
-Slack : 0.190
-TNS   : 0.000
+Slack : -0.002
+TNS   : -0.002
 
 Type  : Slow 1200mV 0C Model Hold 'Game_Logic:game_control|ps2_keyboard:u_ps2|debounce:debounce_ps2_clk|result'
-Slack : 0.348
+Slack : 0.232
 TNS   : 0.000
 
 Type  : Slow 1200mV 0C Model Hold 'DownCounter:clk_div_60hz|twoHZ'
-Slack : 0.537
+Slack : 0.515
 TNS   : 0.000
 
 Type  : Slow 1200mV 0C Model Minimum Pulse Width 'CLOCK_50'
 Slack : -3.000
-TNS   : -170.000
+TNS   : -264.000
 
 Type  : Slow 1200mV 0C Model Minimum Pulse Width 'DownCounter:clk_div_60hz|twoHZ'
 Slack : -1.000
@@ -75,32 +75,32 @@ Slack : -1.000
 TNS   : -11.000
 
 Type  : Fast 1200mV 0C Model Setup 'DownCounter:clk_div_60hz|twoHZ'
-Slack : -6.494
-TNS   : -78.665
+Slack : -6.259
+TNS   : -78.906
 
 Type  : Fast 1200mV 0C Model Setup 'CLOCK_50'
-Slack : -1.586
-TNS   : -114.709
+Slack : -2.832
+TNS   : -404.225
 
 Type  : Fast 1200mV 0C Model Setup 'Game_Logic:game_control|ps2_keyboard:u_ps2|debounce:debounce_ps2_clk|result'
-Slack : 0.360
+Slack : 0.482
 TNS   : 0.000
 
 Type  : Fast 1200mV 0C Model Hold 'CLOCK_50'
-Slack : -0.219
-TNS   : -0.219
+Slack : -0.318
+TNS   : -0.318
 
 Type  : Fast 1200mV 0C Model Hold 'Game_Logic:game_control|ps2_keyboard:u_ps2|debounce:debounce_ps2_clk|result'
-Slack : 0.199
+Slack : 0.106
 TNS   : 0.000
 
 Type  : Fast 1200mV 0C Model Hold 'DownCounter:clk_div_60hz|twoHZ'
-Slack : 0.323
+Slack : 0.307
 TNS   : 0.000
 
 Type  : Fast 1200mV 0C Model Minimum Pulse Width 'CLOCK_50'
 Slack : -3.000
-TNS   : -222.974
+TNS   : -344.819
 
 Type  : Fast 1200mV 0C Model Minimum Pulse Width 'DownCounter:clk_div_60hz|twoHZ'
 Slack : -1.000
