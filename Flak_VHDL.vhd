@@ -192,16 +192,42 @@ begin
     );
 
     -- 將七段顯示器的 7-bit 段碼連接至 8-bit HEX 輸出 (小數點不亮)
-    HEX0(6 downto 0) <= hex0_seg;
+    -- 注意：DE0 的 HEX 腳位通常是 a=bit0, b=bit1... g=bit6
+    -- Seveninput 輸出 display 是 (0 to 6)，即 display(0)=a, display(1)=b...
+    HEX0(0) <= hex0_seg(0);
+    HEX0(1) <= hex0_seg(1);
+    HEX0(2) <= hex0_seg(2);
+    HEX0(3) <= hex0_seg(3);
+    HEX0(4) <= hex0_seg(4);
+    HEX0(5) <= hex0_seg(5);
+    HEX0(6) <= hex0_seg(6);
     HEX0(7) <= '1';
 
-    HEX1(6 downto 0) <= hex1_seg;
+    HEX1(0) <= hex1_seg(0);
+    HEX1(1) <= hex1_seg(1);
+    HEX1(2) <= hex1_seg(2);
+    HEX1(3) <= hex1_seg(3);
+    HEX1(4) <= hex1_seg(4);
+    HEX1(5) <= hex1_seg(5);
+    HEX1(6) <= hex1_seg(6);
     HEX1(7) <= '1';
 
-    HEX2(6 downto 0) <= hex2_seg;
+    HEX2(0) <= hex2_seg(0);
+    HEX2(1) <= hex2_seg(1);
+    HEX2(2) <= hex2_seg(2);
+    HEX2(3) <= hex2_seg(3);
+    HEX2(4) <= hex2_seg(4);
+    HEX2(5) <= hex2_seg(5);
+    HEX2(6) <= hex2_seg(6);
     HEX2(7) <= '1';
 
-    HEX3(6 downto 0) <= hex3_seg;
+    HEX3(0) <= hex3_seg(0);
+    HEX3(1) <= hex3_seg(1);
+    HEX3(2) <= hex3_seg(2);
+    HEX3(3) <= hex3_seg(3);
+    HEX3(4) <= hex3_seg(4);
+    HEX3(5) <= hex3_seg(5);
+    HEX3(6) <= hex3_seg(6);
     HEX3(7) <= '1';
 
     LEDG <= sig_ledg;

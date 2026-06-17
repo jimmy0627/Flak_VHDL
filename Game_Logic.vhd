@@ -9,8 +9,8 @@ entity Game_Logic is
     port(
         clk_50        : in  std_logic;
         reset_n       : in  std_logic; -- KEY(0) reset, active low
-        PS2_KBCLK     : in  std_logic; -- PS/2 鍵盤時脈
-        PS2_KBDAT     : in  std_logic; -- PS/2 鍵盤資料
+        PS2_KBCLK     : in  std_logic; -- PS/2 萇
+        PS2_KBDAT     : in  std_logic; -- PS/2 萇鞈
         turret_angle  : out integer;
         planex, planey: out integer;
         bullet_x      : out integer;
@@ -47,15 +47,31 @@ architecture a of Game_Logic is
 
     -- SIN/COS LUT for angle to vector calculation
     type lut_type is array (0 to 90) of integer;
+    -- 摰91摨血(0簞~90簞)嚗澆歇銋56隞乩蝙冽賊蝞
+    --  others=>0 撠0閫漲敶漲閮航炊(vx=vy=0)
     constant SIN_LUT : lut_type := (
-        0 => 0, 10 => 44, 20 => 88, 30 => 128, 40 => 165,
-        50 => 196, 60 => 222, 70 => 241, 80 => 252, 90 => 256,
-        others => 0
+          0,   4,   9,  13,  18,  22,  27,  31,  36,  40,   -- 0-9
+         44,  49,  53,  58,  62,  66,  71,  75,  79,  83,   -- 10-19
+         88,  92,  96, 100, 104, 108, 112, 116, 120, 124,   -- 20-29
+        128, 132, 136, 139, 143, 147, 150, 154, 158, 161,   -- 30-39
+        165, 168, 171, 175, 178, 181, 184, 187, 190, 193,   -- 40-49
+        196, 199, 202, 204, 207, 210, 212, 215, 217, 219,   -- 50-59
+        222, 224, 226, 228, 230, 232, 234, 236, 237, 239,   -- 60-69
+        241, 242, 243, 245, 246, 247, 248, 249, 250, 251,   -- 70-79
+        252, 253, 254, 254, 255, 255, 255, 256, 256, 256,   -- 80-89
+        256                                                   -- 90
     );
     constant COS_LUT : lut_type := (
-        0 => 256, 10 => 252, 20 => 241, 30 => 222, 40 => 196,
-        50 => 165, 60 => 128, 70 => 88, 80 => 44, 90 => 0,
-        others => 0
+        256, 256, 256, 256, 255, 255, 255, 254, 254, 253,   -- 0-9
+        252, 251, 250, 249, 248, 247, 246, 245, 243, 242,   -- 10-19
+        241, 239, 237, 236, 234, 232, 230, 228, 226, 224,   -- 20-29
+        222, 219, 217, 215, 212, 210, 207, 204, 202, 199,   -- 30-39
+        196, 193, 190, 187, 184, 181, 178, 175, 171, 168,   -- 40-49
+        165, 161, 158, 154, 150, 147, 143, 139, 136, 132,   -- 50-59
+        128, 124, 120, 116, 112, 108, 104, 100,  96,  92,   -- 60-69
+         88,  83,  79,  75,  71,  66,  62,  58,  53,  49,   -- 70-79
+         44,  40,  36,  31,  27,  22,  18,  13,   9,   4,   -- 80-89
+          0                                                   -- 90
     );
 
     -- Pivot coordinates (Cannon center / bullet spawn)
@@ -70,7 +86,7 @@ architecture a of Game_Logic is
     signal is_break     : std_logic := '0';
     
     signal turret_angle_int : integer range 0 to 90 := 45;
-    signal planex_int        : integer := 640;
+    signal planex_int        : integer := 0;
     signal planey_int        : integer := 100;
 
     -- Shell/Bullet state
@@ -99,6 +115,8 @@ architecture a of Game_Logic is
 
     signal ledg_normal : std_logic_vector(9 downto 0);
     signal ledg_scanner : std_logic_vector(9 downto 0);
+    signal game_tick_prev : std_logic := '0'; -- 用於邊緣檢測
+    signal code_new_prev  : std_logic := '0'; -- 用於鍵盤邊緣檢測
 
 begin
     -- Port assignments
@@ -198,10 +216,16 @@ begin
             scanner_clk_div   <= 0;
             is_e0             <= '0';
             is_break          <= '0';
+            game_tick_prev    <= '0';
+            code_new_prev     <= '0';
             
         elsif rising_edge(clk_50) then
+            -- 更新邊緣檢測暫存器
+            game_tick_prev <= game_tick;
+            code_new_prev  <= code_new;
+
             -- 1. Handle keyboard inputs (only allow control if not game_over)
-            if code_new = '1' then
+            if code_new = '1' and code_new_prev = '0' then
                 if code = x"E0" then
                     is_e0 <= '1';
                 elsif code = x"F0" then
@@ -236,7 +260,10 @@ begin
                                             -- Speed: ~12 pixels per frame
                                             bullet_vx         <= (12 * COS_LUT(turret_angle_int)) / 256;
                                             bullet_vy         <= (12 * SIN_LUT(turret_angle_int)) / 256;
-                                            ammo              <= ammo - 1;
+                                            -- 子彈發射時扣除
+                                            if ammo > 0 then
+                                                ammo <= ammo - 1;
+                                            end if;
                                         end if;
                                     when others => 
                                         null;
@@ -250,11 +277,12 @@ begin
             end if;
 
             -- 2. Frame-rate dependent updates (60Hz)
-            if game_tick = '1' then
+            -- 使用邊緣檢測避免在 game_tick 保持為 '1' 的期間重複觸發 (造成速度過快)
+            if game_tick = '1' and game_tick_prev = '0' then
                 if game_over = '0' then
-                    -- A. Update airplane position (moves left)
-                    planex_int <= planex_int - 2;
-                    if planex_int <= 0 then
+                    -- A. Update airplane position (從右向左移動)
+                    planex_int <= planex_int - 1;
+                    if planex_int <= -64 then -- 飛機完全移出左側螢幕
                         game_over <= '1';
                     end if;
 
@@ -275,7 +303,7 @@ begin
                            (bullet_y_int >= planey_int) and (bullet_y_int <= planey_int + 63) then
                             -- Hit!
                             bullet_active_int <= '0';
-                            ammo <= 10; -- Refill ammo
+                            -- 移除擊中時彈藥回復邏輯，現在彈藥僅受開火影響而減少
                             planex_int <= 640; -- Reset airplane
                             planey_int <= rand_counter; -- Randomize airplane altitude
                             
