@@ -1,5 +1,5 @@
 Flow report for Flak_VHDL
-Wed Jun 17 10:40:27 2026
+Wed Jun 17 11:16:31 2026
 Quartus II 64-Bit Version 13.1.0 Build 162 10/23/2013 SJ Web Edition
 
 
@@ -40,17 +40,17 @@ applicable agreement for further details.
 +---------------------------------------------------------------------------------+
 ; Flow Summary                                                                    ;
 +------------------------------------+--------------------------------------------+
-; Flow Status                        ; Successful - Wed Jun 17 10:40:27 2026      ;
+; Flow Status                        ; Successful - Wed Jun 17 11:16:31 2026      ;
 ; Quartus II 64-Bit Version          ; 13.1.0 Build 162 10/23/2013 SJ Web Edition ;
 ; Revision Name                      ; Flak_VHDL                                  ;
 ; Top-level Entity Name              ; Flak_VHDL                                  ;
 ; Family                             ; Cyclone III                                ;
 ; Device                             ; EP3C16F484C6                               ;
 ; Timing Models                      ; Final                                      ;
-; Total logic elements               ; 1,277 / 15,408 ( 8 % )                     ;
-;     Total combinational functions  ; 1,255 / 15,408 ( 8 % )                     ;
-;     Dedicated logic registers      ; 306 / 15,408 ( 2 % )                       ;
-; Total registers                    ; 306                                        ;
+; Total logic elements               ; 1,635 / 15,408 ( 11 % )                    ;
+;     Total combinational functions  ; 1,618 / 15,408 ( 11 % )                    ;
+;     Dedicated logic registers      ; 312 / 15,408 ( 2 % )                       ;
+; Total registers                    ; 312                                        ;
 ; Total pins                         ; 62 / 347 ( 18 % )                          ;
 ; Total virtual pins                 ; 0                                          ;
 ; Total memory bits                  ; 0 / 516,096 ( 0 % )                        ;
@@ -64,7 +64,7 @@ applicable agreement for further details.
 +-------------------+---------------------+
 ; Option            ; Setting             ;
 +-------------------+---------------------+
-; Start date & time ; 06/17/2026 10:39:50 ;
+; Start date & time ; 06/17/2026 11:15:51 ;
 ; Main task         ; Compilation         ;
 ; Revision Name     ; Flak_VHDL           ;
 +-------------------+---------------------+
@@ -75,7 +75,7 @@ applicable agreement for further details.
 +-------------------------------------+---------------------------------+---------------+-------------+----------------+
 ; Assignment Name                     ; Value                           ; Default Value ; Entity Name ; Section Id     ;
 +-------------------------------------+---------------------------------+---------------+-------------+----------------+
-; COMPILER_SIGNATURE_ID               ; 255757346957683.178166399027168 ; --            ; --          ; --             ;
+; COMPILER_SIGNATURE_ID               ; 255757346957683.178166615139532 ; --            ; --          ; --             ;
 ; EDA_OUTPUT_DATA_FORMAT              ; Vhdl                            ; --            ; --          ; eda_simulation ;
 ; EDA_SIMULATION_TOOL                 ; ModelSim-Altera (VHDL)          ; <None>        ; --          ; --             ;
 ; MAX_CORE_JUNCTION_TEMP              ; 85                              ; --            ; --          ; --             ;
@@ -96,12 +96,12 @@ applicable agreement for further details.
 +---------------------------+--------------+-------------------------+---------------------+------------------------------------+
 ; Module Name               ; Elapsed Time ; Average Processors Used ; Peak Virtual Memory ; Total CPU Time (on all processors) ;
 +---------------------------+--------------+-------------------------+---------------------+------------------------------------+
-; Analysis & Synthesis      ; 00:00:06     ; 1.0                     ; 4778 MB             ; 00:00:06                           ;
-; Fitter                    ; 00:00:15     ; 1.7                     ; 6210 MB             ; 00:00:22                           ;
-; Assembler                 ; 00:00:02     ; 1.0                     ; 4645 MB             ; 00:00:02                           ;
-; TimeQuest Timing Analyzer ; 00:00:05     ; 1.0                     ; 4882 MB             ; 00:00:04                           ;
-; EDA Netlist Writer        ; 00:00:02     ; 1.0                     ; 4623 MB             ; 00:00:02                           ;
-; Total                     ; 00:00:30     ; --                      ; --                  ; 00:00:36                           ;
+; Analysis & Synthesis      ; 00:00:08     ; 1.0                     ; 4791 MB             ; 00:00:08                           ;
+; Fitter                    ; 00:00:15     ; 4.6                     ; 6216 MB             ; 00:00:23                           ;
+; Assembler                 ; 00:00:01     ; 1.0                     ; 4645 MB             ; 00:00:02                           ;
+; TimeQuest Timing Analyzer ; 00:00:04     ; 1.0                     ; 4886 MB             ; 00:00:04                           ;
+; EDA Netlist Writer        ; 00:00:03     ; 1.0                     ; 4620 MB             ; 00:00:03                           ;
+; Total                     ; 00:00:31     ; --                      ; --                  ; 00:00:40                           ;
 +---------------------------+--------------+-------------------------+---------------------+------------------------------------+
 
 

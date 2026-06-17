@@ -23,6 +23,7 @@ entity Pixel_Renderer is
         bullet_x     : in  integer;                      -- 砲彈 X 座標
         bullet_y     : in  integer;                      -- 砲彈 Y 座標
         bullet_active: in  std_logic;                    -- 砲彈啟用狀態
+        game_over    : in  std_logic;                    -- 遊戲結束狀態
         
         -- VGA 顏色輸出 (4-bit per channel)
         VGA_R        : out std_logic_vector(3 downto 0);
@@ -132,8 +133,16 @@ architecture rtl of Pixel_Renderer is
     signal is_barrel : boolean; -- 當前像素是否屬於砲管
     signal is_base   : boolean; -- 當前像素是否屬於底座
     signal is_bullet : boolean; -- 當前像素是否屬於砲彈
+    signal is_cross  : boolean; -- 當前像素是否屬於叉叉 (GameOver)
 
 begin
+
+    -- [遊戲結束叉叉] 判定 (顯示在螢幕中央附近，大小放大兩倍約 200x200)
+    -- 使用 abs 運算判定兩條對角線，並加入寬度緩衝使線條粗一些
+    is_cross <= true when (game_over = '1') and (
+                           (abs((pixel_x - 320) - (pixel_y - 240)) <= 6) or 
+                           (abs((pixel_x - 320) - (240 - pixel_y)) <= 6)
+                         ) and (pixel_x > 220 and pixel_x < 420) else false;
 
     -- [砲彈] 範圍判定 (尺寸設定為 4x4 像素)
     is_bullet <= true when (bullet_active = '1') and
@@ -170,7 +179,9 @@ begin
             VGA_R <= x"0"; VGA_G <= x"0"; VGA_B <= x"0";
 
             if video_on = '1' then
-                if is_bullet then
+                if is_cross then
+                    VGA_R <= x"F"; VGA_G <= x"0"; VGA_B <= x"0"; -- 紅色叉叉
+                elsif is_bullet then
                     VGA_R <= x"F"; VGA_G <= x"F"; VGA_B <= x"0"; -- 黃色砲彈
                 elsif is_plane then
                     local_dx := (pixel_x - plane_x) / SCALE;

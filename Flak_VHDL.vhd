@@ -47,6 +47,7 @@ architecture a of Flak_VHDL is
             bullet_x      : out integer;
             bullet_y      : out integer;
             bullet_active : out std_logic;
+            game_over_out : out std_logic;
             ledg_out      : out std_logic_vector(9 downto 0);
             bcd0, bcd1, bcd2, bcd3 : out std_logic_vector(3 downto 0)
         );
@@ -65,6 +66,7 @@ architecture a of Flak_VHDL is
             bullet_x     : in  integer;
             bullet_y     : in  integer;
             bullet_active: in  std_logic;
+            game_over    : in  std_logic;
             VGA_R        : out std_logic_vector(3 downto 0);
             VGA_G        : out std_logic_vector(3 downto 0);
             VGA_B        : out std_logic_vector(3 downto 0)
@@ -102,6 +104,7 @@ architecture a of Flak_VHDL is
     signal sig_bx      : integer;
     signal sig_by      : integer;
     signal sig_bactive : std_logic;
+    signal sig_gameover: std_logic;
     signal sig_ledg    : std_logic_vector(9 downto 0);
 
     -- BCD 分數訊號
@@ -130,6 +133,7 @@ begin
         bullet_x      => sig_bx,
         bullet_y      => sig_by,
         bullet_active => sig_bactive,
+        game_over_out => sig_gameover,
         ledg_out      => sig_ledg,
         bcd0          => sig_bcd0,
         bcd1          => sig_bcd1,
@@ -161,6 +165,7 @@ begin
         bullet_x     => sig_bx,
         bullet_y     => sig_by,
         bullet_active=> sig_bactive,
+        game_over    => sig_gameover,
         VGA_R        => VGA_R,
         VGA_G        => VGA_G,
         VGA_B        => VGA_B

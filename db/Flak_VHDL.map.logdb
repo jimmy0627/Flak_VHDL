@@ -1,5 +1,5 @@
 v1
-DSP_BALANCING_IMPLEMENTATION,DSP_BLOCKS,Pixel_Renderer:render|lpm_mult:Mult3|mult_c4t:auto_generated|mac_out2,
-DSP_BALANCING_IMPLEMENTATION,DSP_BLOCKS,Pixel_Renderer:render|lpm_mult:Mult2|mult_c4t:auto_generated|mac_out2,
-DSP_BALANCING_IMPLEMENTATION,DSP_BLOCKS,Pixel_Renderer:render|lpm_mult:Mult1|mult_c4t:auto_generated|mac_out2,
 DSP_BALANCING_IMPLEMENTATION,DSP_BLOCKS,Pixel_Renderer:render|lpm_mult:Mult0|mult_c4t:auto_generated|mac_out2,
+DSP_BALANCING_IMPLEMENTATION,DSP_BLOCKS,Pixel_Renderer:render|lpm_mult:Mult1|mult_c4t:auto_generated|mac_out2,
+DSP_BALANCING_IMPLEMENTATION,DSP_BLOCKS,Pixel_Renderer:render|lpm_mult:Mult2|mult_c4t:auto_generated|mac_out2,
+DSP_BALANCING_IMPLEMENTATION,DSP_BLOCKS,Pixel_Renderer:render|lpm_mult:Mult3|mult_c4t:auto_generated|mac_out2,

@@ -9,13 +9,14 @@ entity Game_Logic is
     port(
         clk_50        : in  std_logic;
         reset_n       : in  std_logic; -- KEY(0) reset, active low
-        PS2_KBCLK     : in  std_logic; -- PS/2 萇
-        PS2_KBDAT     : in  std_logic; -- PS/2 萇鞈
+        PS2_KBCLK     : in  std_logic; -- PS/2 
+        PS2_KBDAT     : in  std_logic; -- PS/2 
         turret_angle  : out integer;
         planex, planey: out integer;
         bullet_x      : out integer;
         bullet_y      : out integer;
         bullet_active : out std_logic;
+        game_over_out : out std_logic;
         ledg_out      : out std_logic_vector(9 downto 0);
         bcd0, bcd1, bcd2, bcd3 : out std_logic_vector(3 downto 0)
     );
@@ -47,8 +48,8 @@ architecture a of Game_Logic is
 
     -- SIN/COS LUT for angle to vector calculation
     type lut_type is array (0 to 90) of integer;
-    -- 摰91摨血(0簞~90簞)嚗澆歇銋56隞乩蝙冽賊蝞
-    --  others=>0 撠0閫漲敶漲閮航炊(vx=vy=0)
+    -- 1頩(0頠0頠雓6鞊航荔
+    -- thers=>0 頩瘙控隡敞豰刈殉等x=vy=0)
     constant SIN_LUT : lut_type := (
           0,   4,   9,  13,  18,  22,  27,  31,  36,  40,   -- 0-9
          44,  49,  53,  58,  62,  66,  71,  75,  79,  83,   -- 10-19
@@ -105,8 +106,10 @@ architecture a of Game_Logic is
     -- Game states
     signal game_over : std_logic := '0';
 
-    -- Free-running counter for random height
-    signal rand_counter : integer range 30 to 180 := 30;
+    -- Free-running counter for random height and spread
+    signal rand_counter : integer range 0 to 255 := 30;
+    signal spread_angle : integer range -30 to 30 := 0;
+    signal final_angle  : integer range -2 to 92 := 0;
 
     -- Knight Rider scanner variables
     signal scanner_pos : integer range 0 to 9 := 0;
@@ -115,8 +118,8 @@ architecture a of Game_Logic is
 
     signal ledg_normal : std_logic_vector(9 downto 0);
     signal ledg_scanner : std_logic_vector(9 downto 0);
-    signal game_tick_prev : std_logic := '0'; -- 用於邊緣檢測
-    signal code_new_prev  : std_logic := '0'; -- 用於鍵盤邊緣檢測
+    signal game_tick_prev : std_logic := '0'; -- 頦瞏
+    signal code_new_prev  : std_logic := '0'; -- 頦蹇
 
 begin
     -- Port assignments
@@ -126,6 +129,7 @@ begin
     bullet_x      <= bullet_x_int;
     bullet_y      <= bullet_y_int;
     bullet_active <= bullet_active_int;
+    game_over_out <= game_over;
     bcd0          <= bcd0_int;
     bcd1          <= bcd1_int;
     bcd2          <= bcd2_int;
@@ -180,16 +184,29 @@ begin
         ps2_code     => code
     );
 
-    -- Random Y counter generator (Free running)
+    -- Random counter generator (Free running)
     process(clk_50)
     begin
         if rising_edge(clk_50) then
-            if rand_counter = 180 then
-                rand_counter <= 30;
+            if rand_counter = 255 then
+                rand_counter <= 0;
             else
                 rand_counter <= rand_counter + 1;
             end if;
         end if;
+    end process;
+
+    -- Map random counter to -2 to +2 spread
+    process(rand_counter)
+    begin
+        case (rand_counter mod 5) is
+            when 0 => spread_angle <= -2;
+            when 1 => spread_angle <= -1;
+            when 2 => spread_angle <= 0;
+            when 3 => spread_angle <= 1;
+            when 4 => spread_angle <= 2;
+            when others => spread_angle <= 0;
+        end case;
     end process;
 
     -- Main game update process
@@ -217,10 +234,12 @@ begin
             is_e0             <= '0';
             is_break          <= '0';
             game_tick_prev    <= '0';
-            code_new_prev     <= '0';
+            -- 撘瑕撠code_new_prev 閮剔 '1'嚗Ⅱ靽Reset 敺蝚砌望
+            -- 喃蝙 code_new '1'嚗瑕 (code_new = '1' and code_new_prev = '0') 銋憭望
+            code_new_prev     <= '1';
             
         elsif rising_edge(clk_50) then
-            -- 更新邊緣檢測暫存器
+            -- 蹇氐
             game_tick_prev <= game_tick;
             code_new_prev  <= code_new;
 
@@ -257,10 +276,16 @@ begin
                                             bullet_active_int <= '1';
                                             bullet_x_int      <= PIVOT_X;
                                             bullet_y_int      <= PIVOT_Y;
-                                            -- Speed: ~12 pixels per frame
-                                            bullet_vx         <= (12 * COS_LUT(turret_angle_int)) / 256;
-                                            bullet_vy         <= (12 * SIN_LUT(turret_angle_int)) / 256;
-                                            -- 子彈發射時扣除
+                                            
+                                            -- 殷賡蹇(0-90 刻
+                                            if (turret_angle_int + spread_angle) < 0 then
+                                                final_angle <= 0;
+                                            elsif (turret_angle_int + spread_angle) > 90 then
+                                                final_angle <= 90;
+                                            else
+                                                final_angle <= turret_angle_int + spread_angle;
+                                            end if;
+                                            -- 殉瞉
                                             if ammo > 0 then
                                                 ammo <= ammo - 1;
                                             end if;
@@ -276,13 +301,25 @@ begin
                 end if;
             end if;
 
+            -- 賹撞殷
+            if bullet_active_int = '1' and bullet_vx = 0 and bullet_vy = 0 then
+                bullet_vx <= (6 * COS_LUT(final_angle)) / 256;
+                bullet_vy <= (6 * SIN_LUT(final_angle)) / 256;
+            end if;
+
+            -- 叟瞍脣寡謒芣
+            if bullet_active_int = '0' then
+                bullet_vx <= 0;
+                bullet_vy <= 0;
+            end if;
+
             -- 2. Frame-rate dependent updates (60Hz)
-            -- 使用邊緣檢測避免在 game_tick 保持為 '1' 的期間重複觸發 (造成速度過快)
+            -- 頛舀寧蹎梢me_tick 頦1' 殉玫皝株賹寡
             if game_tick = '1' and game_tick_prev = '0' then
                 if game_over = '0' then
-                    -- A. Update airplane position (從右向左移動)
+                    -- A. Update airplane position (蝬咯減
                     planex_int <= planex_int - 1;
-                    if planex_int <= -64 then -- 飛機完全移出左側螢幕
+                    if planex_int <= -64 then -- 謑株頩
                         game_over <= '1';
                     end if;
 
@@ -299,13 +336,14 @@ begin
 
                     -- C. Collision detection (bullet hitting airplane bounding box: size 64x64)
                     if bullet_active_int = '1' then
-                        if (bullet_x_int >= planex_int) and (bullet_x_int <= planex_int + 63) and
-                           (bullet_y_int >= planey_int) and (bullet_y_int <= planey_int + 63) then
+                        if (bullet_x_int >= planex_int) and (bullet_x_int <= planex_int + 50) and
+                           (bullet_y_int >= planey_int) and (bullet_y_int <= planey_int + 40) then
                             -- Hit!
                             bullet_active_int <= '0';
-                            -- 移除擊中時彈藥回復邏輯，現在彈藥僅受開火影響而減少
+                            -- 謢箄祇謕謍減雓堆蹓澗擗
                             planex_int <= 640; -- Reset airplane
-                            planey_int <= rand_counter; -- Randomize airplane altitude
+                            -- 輯撒rand_counter 嚗30-210 玟
+                            planey_int <= 30 + (rand_counter mod 181); 
                             
                             -- Score increment (BCD counting: bcd3 bcd2 bcd1 bcd0)
                             if bcd0_int = "1001" then
