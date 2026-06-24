@@ -4,7 +4,7 @@ use ieee.numeric_std.all;
 
 ENTITY DownCounter is
 	 generic (
-        FREQ_HZ : integer := 1  -- 預設頻率為 1Hz，可以在外部呼叫時更改
+        FREQ_HZ : integer := 1  -- Default frequency is 1Hz, can be overridden in instantiation
     );
     port (
         clk   : IN std_logic;
@@ -26,7 +26,7 @@ begin
         elsif falling_edge(clk) then 
             if (div_cnt = TARGET_COUNT) then 
                 div_cnt <= 0;
-                twoHZ   <= not twoHZ; -- 達到次數，訊號反轉
+                twoHZ   <= not twoHZ; -- Target count reached, flip signal
             else
                 div_cnt <= div_cnt + 1;
             end if;

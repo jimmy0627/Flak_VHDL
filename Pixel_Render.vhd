@@ -1,9 +1,10 @@
 -- ==============================================================================
 -- Entity: Pixel_Renderer
--- Description: 純幾何與 Bitmap 混合式 VGA 畫面渲染模組。
---              1. 砲台底座與飛機：使用 16x16 2-bit Bitmap ROM，放大 4 倍渲染。
---              2. 砲管：使用解析幾何公式 (內積/投影) 配和 256倍放大之 SIN/COS LUT，
---                 即時運算生成旋轉。
+-- Description: Hybrid geometric and Bitmap VGA rendering module.
+--              1. Turret base and airplane: Uses 16x16 2-bit Bitmap ROM, 
+--                 rendered with 4x scaling.
+--              2. Cannon barrel: Uses analytical geometry (dot product/projection) 
+--                 combined with 256x scaled SIN/COS LUT for real-time rotation.
 -- ==============================================================================
 library ieee;
 use ieee.std_logic_1164.all;
@@ -11,21 +12,21 @@ use ieee.numeric_std.all;
 
 entity Pixel_Renderer is
     port(
-        vga_clk      : in  std_logic;                    -- VGA 像素時脈 (例如 25MHz)
-        video_on     : in  std_logic;                    -- VGA 顯示區域致能訊訊
-        pixel_x      : in  integer range 0 to 799;       -- 當前掃描像素 X 座標
-        pixel_y      : in  integer range 0 to 524;       -- 當前掃描像素 Y 座標
+        vga_clk      : in  std_logic;                    -- VGA pixel clock (e.g., 25MHz)
+        video_on     : in  std_logic;                    -- VGA video on signal
+        pixel_x      : in  integer range 0 to 799;       -- Current scanning pixel X coordinate
+        pixel_y      : in  integer range 0 to 524;       -- Current scanning pixel Y coordinate
         
-        -- 物件座標與狀態輸入
-        turret_angle : in  integer range 0 to 90;        -- 砲塔仰角 (0=右, 90=上)
-        plane_x      : in  integer;                      -- 飛機左上角 X 座標
-        plane_y      : in  integer;                      -- 飛機左上角 Y 座標
-        bullet_x     : in  integer;                      -- 砲彈 X 座標
-        bullet_y     : in  integer;                      -- 砲彈 Y 座標
-        bullet_active: in  std_logic;                    -- 砲彈啟用狀態
-        game_over    : in  std_logic;                    -- 遊戲結束狀態
+        -- Object coordinates and state inputs
+        turret_angle : in  integer range 0 to 90;        -- Turret elevation angle (0=right, 90=up)
+        plane_x      : in  integer;                      -- Airplane top-left X position
+        plane_y      : in  integer;                      -- Airplane top-left Y position
+        bullet_x     : in  integer;                      -- Bullet X position
+        bullet_y     : in  integer;                      -- Bullet Y position
+        bullet_active: in  std_logic;                    -- Bullet active status
+        game_over    : in  std_logic;                    -- Game over status
         
-        -- VGA 顏色輸出 (4-bit per channel)
+        -- VGA color output (4-bit per channel)
         VGA_R        : out std_logic_vector(3 downto 0);
         VGA_G        : out std_logic_vector(3 downto 0);
         VGA_B        : out std_logic_vector(3 downto 0)
@@ -35,11 +36,11 @@ end Pixel_Renderer;
 architecture rtl of Pixel_Renderer is
 
     ------------------------------------------------------------------------------
-    -- 1. Bitmap ROM 定義 (16行，每行 32-bit 代表 16 個 2-bit 像素)
+    -- 1. Bitmap ROM definition (16 rows, each 32-bit representing 16 x 2-bit pixels)
     ------------------------------------------------------------------------------
     type rom_type is array (0 to 15) of std_logic_vector(31 downto 0);
 
-    -- [底座] ROM
+    -- [Base] ROM
     constant BASE_BITMAP : rom_type := (
         "00000000000000000000000000000000",
         "00000000000000000000000000000000",
@@ -59,7 +60,7 @@ architecture rtl of Pixel_Renderer is
         "00000010101010101010101010100000"
     );
 
-    -- [飛機] ROM
+    -- [Airplane] ROM
     constant PLANE_BITMAP : rom_type := (
         "00000000000000000000000000000000",
         "00000000000000000000000000000000",
@@ -80,12 +81,13 @@ architecture rtl of Pixel_Renderer is
     );
 
     ------------------------------------------------------------------------------
-    -- 2. 三角函數 LUT 定義 (0-90度，每10度一個數值，數值已乘 256)
+    -- 2. Trigonometric LUT definition (0-90 degrees, scaled by 256)
     ------------------------------------------------------------------------------
     type lut_type is array (0 to 90) of integer;
     
-    -- 完整91個角度值 (0°~90°)，數值已乘256以使用整數運算
-    -- 原版 others=>0 導致非10倍數角度(如45°)時SIN=COS=0，使全螢幕誤判為砲管
+    -- Full 91 degree values (0° to 90°), scaled by 256 for integer math
+    -- Original others=>0 caused issues for non-multiples of 10 degrees (like 45°) 
+    -- where SIN=COS=0, causing full-screen misdetection of the cannon barrel.
     constant SIN_LUT : lut_type := (
           0,   4,   9,  13,  18,  22,  27,  31,  36,  40,   -- 0-9
          44,  49,  53,  58,  62,  66,  71,  75,  79,  83,   -- 10-19
@@ -111,96 +113,96 @@ architecture rtl of Pixel_Renderer is
           0                                                   -- 90
     );
 	
-    -- 通用放大倍率 (將 16x16 圖案放大成 64x64)
+    -- General scaling factor (scales 16x16 sprite to 64x64)
     constant SCALE       : integer := 4;
     constant SPRITE_SIZE : integer := 16 * SCALE;
 
-    -- 砲台固定參數
-    constant TURRET_X    : integer := 50;   -- 底座左上角 X
-    constant TURRET_Y    : integer := 380;  -- 底座左上角 Y
-    constant PIVOT_X     : integer := TURRET_X + 8 * SCALE; -- 旋轉軸心 X (微調齊底座)
-    constant PIVOT_Y     : integer := TURRET_Y + 8 * SCALE; -- 旋轉軸心 Y
+    -- Turret constants
+    constant TURRET_X    : integer := 50;   -- Base top-left X
+    constant TURRET_Y    : integer := 380;  -- Base top-left Y
+    constant PIVOT_X     : integer := TURRET_X + 8 * SCALE; -- Rotation pivot X (centered with base)
+    constant PIVOT_Y     : integer := TURRET_Y + 8 * SCALE; -- Rotation pivot Y
 
-    -- 砲管幾何限制
-    constant BARREL_LENGTH : integer := 20; -- 砲管長度像素
-    constant BARREL_WIDTH  : integer := 1;  -- 砲管半徑像素
+    -- Barrel geometry constraints
+    constant BARREL_LENGTH : integer := 20; -- Barrel length in pixels
+    constant BARREL_WIDTH  : integer := 1;  -- Barrel radius in pixels
 
-    -- 幾何運算訊號 (必須用 signed 處理負數座標)
-    signal proj_d, proj_n : signed(31 downto 0); -- 投影長度與投影寬度 (放大256倍)
+    -- Geometric signals (signed for coordinate differences)
+    signal proj_d, proj_n : signed(31 downto 0); -- Projection length and width (scaled by 256)
     
-    -- 畫面佔用判定訊號
-    signal is_plane  : boolean; -- 當前像素是否屬於飛機
-    signal is_barrel : boolean; -- 當前像素是否屬於砲管
-    signal is_base   : boolean; -- 當前像素是否屬於底座
-    signal is_bullet : boolean; -- 當前像素是否屬於砲彈
-    signal is_cross  : boolean; -- 當前像素是否屬於叉叉 (GameOver)
+    -- Pixel occupancy signals
+    signal is_plane  : boolean; -- Current pixel is plane
+    signal is_barrel : boolean; -- Current pixel is barrel
+    signal is_base   : boolean; -- Current pixel is base
+    signal is_bullet : boolean; -- Current pixel is bullet
+    signal is_cross  : boolean; -- Current pixel is cross (Game Over)
 
 begin
 
-    -- [遊戲結束叉叉] 判定 (顯示在螢幕中央附近，大小放大兩倍約 200x200)
-    -- 使用 abs 運算判定兩條對角線，並加入寬度緩衝使線條粗一些
+    -- [Game Over Cross] detection (centered on screen, approx 200x200)
+    -- Use absolute difference for diagonals with a buffer for line thickness
     is_cross <= true when (game_over = '1') and (
                            (abs((pixel_x - 320) - (pixel_y - 240)) <= 6) or 
                            (abs((pixel_x - 320) - (240 - pixel_y)) <= 6)
                          ) and (pixel_x > 220 and pixel_x < 420) else false;
 
-    -- [砲彈] 範圍判定 (尺寸設定為 4x4 像素)
+    -- [Bullet] bounding box (4x4 pixels)
     is_bullet <= true when (bullet_active = '1') and
                            (pixel_x >= bullet_x) and (pixel_x < bullet_x + 4) and
                            (pixel_y >= bullet_y) and (pixel_y < bullet_y + 4) else false;
 
-    -- [飛機] Bounding Box 判定
+    -- [Airplane] bounding box detection
     is_plane <= true when (pixel_x >= plane_x) and (pixel_x < plane_x + SPRITE_SIZE) and
                           (pixel_y >= plane_y) and (pixel_y < plane_y + SPRITE_SIZE) else false;
 
-    -- [底座] Bounding Box 判定
+    -- [Base] bounding box detection
     is_base <= true when (pixel_x >= TURRET_X) and (pixel_x < TURRET_X + SPRITE_SIZE) and
                          (pixel_y >= TURRET_Y) and (pixel_y < TURRET_Y + SPRITE_SIZE) else false;
 
-    -- [砲管] 解析幾何方程式運算 (Dot Product / Projection scaled by 256)
+    -- [Barrel] analytical geometry (Dot Product / Projection scaled by 256)
 	proj_d <= to_signed((pixel_x - PIVOT_X) / SCALE, 16) * to_signed(COS_LUT(turret_angle), 16) 
             - to_signed((pixel_y - PIVOT_Y) / SCALE, 16) * to_signed(SIN_LUT(turret_angle), 16);
 
     proj_n <= to_signed((pixel_x - PIVOT_X) / SCALE, 16) * to_signed(SIN_LUT(turret_angle), 16) 
             + to_signed((pixel_y - PIVOT_Y) / SCALE, 16) * to_signed(COS_LUT(turret_angle), 16);
 
-    -- [砲管] 幾何範圍判定
-    -- proj_d 在 [0, 長度*256]; proj_n 在 [-半徑*256, +半徑*256] 之間
+    -- [Barrel] geometric range check
+    -- proj_d in [0, Length*256]; proj_n in [-Radius*256, +Radius*256]
     is_barrel <= true when (proj_d >= 0) and (proj_d <= BARREL_LENGTH * 256) and
                            (proj_n >= -BARREL_WIDTH * 256) and (proj_n <= BARREL_WIDTH * 256) else false;
 						   
     process(vga_clk)
-        -- 區域變數用於讀取 ROM
+        -- Local variables for ROM access
         variable local_dx, local_dy : integer range 0 to 15;
         variable color_bits : std_logic_vector(1 downto 0);
     begin
         if rising_edge(vga_clk) then
-            -- 預設背景色：黑色 (000)
+            -- Default background: black
             VGA_R <= x"0"; VGA_G <= x"0"; VGA_B <= x"0";
 
             if video_on = '1' then
                 if is_cross then
-                    VGA_R <= x"F"; VGA_G <= x"0"; VGA_B <= x"0"; -- 紅色叉叉
+                    VGA_R <= x"F"; VGA_G <= x"0"; VGA_B <= x"0"; -- Red cross
                 elsif is_bullet then
-                    VGA_R <= x"F"; VGA_G <= x"F"; VGA_B <= x"0"; -- 黃色砲彈
+                    VGA_R <= x"F"; VGA_G <= x"F"; VGA_B <= x"0"; -- Yellow bullet
                 elsif is_plane then
                     local_dx := (pixel_x - plane_x) / SCALE;
                     local_dy := (pixel_y - plane_y) / SCALE;
 
-                    -- 取出 ROM 顏色
+                    -- Fetch bits from ROM
                     color_bits(1) := PLANE_BITMAP(local_dy)(31 - local_dx * 2);
                     color_bits(0) := PLANE_BITMAP(local_dy)(30 - local_dx * 2);
 
-                    -- 飛機調色盤
+                    -- Airplane palette
                     case color_bits is
-                        when "01" => VGA_R <= x"C"; VGA_G <= x"C"; VGA_B <= x"C"; -- 淺灰 (機身)
-                        when "10" => VGA_R <= x"5"; VGA_G <= x"5"; VGA_B <= x"5"; -- 深灰 (機尾)
-                        when "11" => VGA_R <= x"F"; VGA_G <= x"3"; VGA_B <= x"0"; -- 紅/橘 (座艙)
+                        when "01" => VGA_R <= x"C"; VGA_G <= x"C"; VGA_B <= x"C"; -- Light grey (body)
+                        when "10" => VGA_R <= x"5"; VGA_G <= x"5"; VGA_B <= x"5"; -- Dark grey (tail)
+                        when "11" => VGA_R <= x"F"; VGA_G <= x"3"; VGA_B <= x"0"; -- Red/Orange (cockpit)
                         when others => null;
                     end case;
 
                 elsif is_barrel then
-                    -- 畫出深灰色的砲管
+                    -- Draw dark grey barrel
                     VGA_R <= x"5"; VGA_G <= x"5"; VGA_B <= x"5";
                     
                 elsif is_base then
@@ -210,10 +212,10 @@ begin
                     color_bits(1) := BASE_BITMAP(local_dy)(31 - local_dx * 2);
                     color_bits(0) := BASE_BITMAP(local_dy)(30 - local_dx * 2);
 
-                    -- 底座調色盤
+                    -- Base palette
                     case color_bits is
-                        when "01" => VGA_R <= x"C"; VGA_G <= x"C"; VGA_B <= x"C"; -- 淺灰 (防盾)
-                        when "10" => VGA_R <= x"5"; VGA_G <= x"5"; VGA_B <= x"5"; -- 深灰 (砲管與底座)
+                        when "01" => VGA_R <= x"C"; VGA_G <= x"C"; VGA_B <= x"C"; -- Light grey (shield)
+                        when "10" => VGA_R <= x"5"; VGA_G <= x"5"; VGA_B <= x"5"; -- Dark grey (barrel and base)
                         when others => null;
                     end case;
                 end if;

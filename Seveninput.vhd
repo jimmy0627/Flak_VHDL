@@ -23,11 +23,11 @@ begin
                    "0000000" when "1000", -- 8
                    "0000100" when "1001", -- 9
                    "0001000" when "1010", -- A (10)
-                   "1100000" when "1011", -- b (11) - 顯示小寫 b 以區分 8
+                   "1100000" when "1011", -- b (11) - lowercase b to distinguish from 8
                    "0110001" when "1100", -- C (12)
-                   "1000010" when "1101", -- d (13) - 顯示小寫 d 以區分 0
+                   "1000010" when "1101", -- d (13) - lowercase d to distinguish from 0
                    "0110000" when "1110", -- E (14)
                    "0111000" when "1111", -- F (15)
                    
-                   "1111111" when others; -- 未知狀態時全暗 (1為暗)
+                   "1111111" when others; -- Blank for unknown states (1 is off)
 end SevenSegDecoder;

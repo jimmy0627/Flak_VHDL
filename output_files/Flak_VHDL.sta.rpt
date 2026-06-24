@@ -1,5 +1,5 @@
 TimeQuest Timing Analyzer report for Flak_VHDL
-Wed Jun 17 11:16:26 2026
+Wed Jun 24 10:11:09 2026
 Quartus II 64-Bit Version 13.1.0 Build 162 10/23/2013 SJ Web Edition
 
 
@@ -530,21 +530,21 @@ No paths to report.
 ; 0.440 ; Game_Logic:game_control|bcd2_int[1]                                                  ; Game_Logic:game_control|bcd2_int[3]                                                  ; CLOCK_50                                                                    ; CLOCK_50    ; 0.000        ; 0.061      ; 0.658      ;
 ; 0.511 ; Game_Logic:game_control|ps2_keyboard:u_ps2|ps2_code_new                              ; Game_Logic:game_control|code_new_prev                                                ; CLOCK_50                                                                    ; CLOCK_50    ; 0.000        ; 0.077      ; 0.745      ;
 ; 0.556 ; Game_Logic:game_control|DownCounter:clk_div_60hz|div_cnt[10]                         ; Game_Logic:game_control|DownCounter:clk_div_60hz|div_cnt[10]                         ; CLOCK_50                                                                    ; CLOCK_50    ; 0.000        ; 0.063      ; 0.776      ;
-; 0.557 ; Game_Logic:game_control|DownCounter:clk_div_60hz|div_cnt[19]                         ; Game_Logic:game_control|DownCounter:clk_div_60hz|div_cnt[19]                         ; CLOCK_50                                                                    ; CLOCK_50    ; 0.000        ; 0.063      ; 0.777      ;
 ; 0.557 ; DownCounter:clk_div_60hz|div_cnt[8]                                                  ; DownCounter:clk_div_60hz|div_cnt[8]                                                  ; CLOCK_50                                                                    ; CLOCK_50    ; 0.000        ; 0.062      ; 0.776      ;
 ; 0.557 ; DownCounter:clk_div_60hz|div_cnt[3]                                                  ; DownCounter:clk_div_60hz|div_cnt[3]                                                  ; CLOCK_50                                                                    ; CLOCK_50    ; 0.000        ; 0.062      ; 0.776      ;
+; 0.557 ; Game_Logic:game_control|DownCounter:clk_div_60hz|div_cnt[19]                         ; Game_Logic:game_control|DownCounter:clk_div_60hz|div_cnt[19]                         ; CLOCK_50                                                                    ; CLOCK_50    ; 0.000        ; 0.063      ; 0.777      ;
 ; 0.558 ; Game_Logic:game_control|ps2_keyboard:u_ps2|count_idle[9]                             ; Game_Logic:game_control|ps2_keyboard:u_ps2|count_idle[9]                             ; CLOCK_50                                                                    ; CLOCK_50    ; 0.000        ; 0.061      ; 0.776      ;
 ; 0.558 ; Game_Logic:game_control|ps2_keyboard:u_ps2|count_idle[7]                             ; Game_Logic:game_control|ps2_keyboard:u_ps2|count_idle[7]                             ; CLOCK_50                                                                    ; CLOCK_50    ; 0.000        ; 0.061      ; 0.776      ;
-; 0.558 ; Game_Logic:game_control|DownCounter:clk_div_60hz|div_cnt[24]                         ; Game_Logic:game_control|DownCounter:clk_div_60hz|div_cnt[24]                         ; CLOCK_50                                                                    ; CLOCK_50    ; 0.000        ; 0.063      ; 0.778      ;
 ; 0.558 ; DownCounter:clk_div_60hz|div_cnt[9]                                                  ; DownCounter:clk_div_60hz|div_cnt[9]                                                  ; CLOCK_50                                                                    ; CLOCK_50    ; 0.000        ; 0.062      ; 0.777      ;
+; 0.558 ; Game_Logic:game_control|DownCounter:clk_div_60hz|div_cnt[24]                         ; Game_Logic:game_control|DownCounter:clk_div_60hz|div_cnt[24]                         ; CLOCK_50                                                                    ; CLOCK_50    ; 0.000        ; 0.063      ; 0.778      ;
 ; 0.559 ; Game_Logic:game_control|ps2_keyboard:u_ps2|count_idle[11]                            ; Game_Logic:game_control|ps2_keyboard:u_ps2|count_idle[11]                            ; CLOCK_50                                                                    ; CLOCK_50    ; 0.000        ; 0.061      ; 0.777      ;
 ; 0.559 ; Game_Logic:game_control|ps2_keyboard:u_ps2|count_idle[1]                             ; Game_Logic:game_control|ps2_keyboard:u_ps2|count_idle[1]                             ; CLOCK_50                                                                    ; CLOCK_50    ; 0.000        ; 0.061      ; 0.777      ;
 ; 0.560 ; Game_Logic:game_control|ps2_keyboard:u_ps2|count_idle[2]                             ; Game_Logic:game_control|ps2_keyboard:u_ps2|count_idle[2]                             ; CLOCK_50                                                                    ; CLOCK_50    ; 0.000        ; 0.061      ; 0.778      ;
-; 0.560 ; Game_Logic:game_control|DownCounter:clk_div_60hz|div_cnt[23]                         ; Game_Logic:game_control|DownCounter:clk_div_60hz|div_cnt[23]                         ; CLOCK_50                                                                    ; CLOCK_50    ; 0.000        ; 0.063      ; 0.780      ;
-; 0.560 ; Game_Logic:game_control|DownCounter:clk_div_60hz|div_cnt[21]                         ; Game_Logic:game_control|DownCounter:clk_div_60hz|div_cnt[21]                         ; CLOCK_50                                                                    ; CLOCK_50    ; 0.000        ; 0.063      ; 0.780      ;
 ; 0.560 ; DownCounter:clk_div_60hz|div_cnt[14]                                                 ; DownCounter:clk_div_60hz|div_cnt[14]                                                 ; CLOCK_50                                                                    ; CLOCK_50    ; 0.000        ; 0.062      ; 0.779      ;
 ; 0.560 ; DownCounter:clk_div_60hz|div_cnt[7]                                                  ; DownCounter:clk_div_60hz|div_cnt[7]                                                  ; CLOCK_50                                                                    ; CLOCK_50    ; 0.000        ; 0.062      ; 0.779      ;
 ; 0.560 ; DownCounter:clk_div_60hz|div_cnt[5]                                                  ; DownCounter:clk_div_60hz|div_cnt[5]                                                  ; CLOCK_50                                                                    ; CLOCK_50    ; 0.000        ; 0.062      ; 0.779      ;
+; 0.560 ; Game_Logic:game_control|DownCounter:clk_div_60hz|div_cnt[23]                         ; Game_Logic:game_control|DownCounter:clk_div_60hz|div_cnt[23]                         ; CLOCK_50                                                                    ; CLOCK_50    ; 0.000        ; 0.063      ; 0.780      ;
+; 0.560 ; Game_Logic:game_control|DownCounter:clk_div_60hz|div_cnt[21]                         ; Game_Logic:game_control|DownCounter:clk_div_60hz|div_cnt[21]                         ; CLOCK_50                                                                    ; CLOCK_50    ; 0.000        ; 0.063      ; 0.780      ;
 ; 0.561 ; Game_Logic:game_control|DownCounter:clk_div_60hz|div_cnt[22]                         ; Game_Logic:game_control|DownCounter:clk_div_60hz|div_cnt[22]                         ; CLOCK_50                                                                    ; CLOCK_50    ; 0.000        ; 0.063      ; 0.781      ;
 ; 0.562 ; Game_Logic:game_control|ps2_keyboard:u_ps2|count_idle[10]                            ; Game_Logic:game_control|ps2_keyboard:u_ps2|count_idle[10]                            ; CLOCK_50                                                                    ; CLOCK_50    ; 0.000        ; 0.061      ; 0.780      ;
 ; 0.562 ; Game_Logic:game_control|ps2_keyboard:u_ps2|count_idle[8]                             ; Game_Logic:game_control|ps2_keyboard:u_ps2|count_idle[8]                             ; CLOCK_50                                                                    ; CLOCK_50    ; 0.000        ; 0.061      ; 0.780      ;
@@ -1322,8 +1322,8 @@ No paths to report.
 ; -10.342 ; VGA_sync:u_VGA_sync|h_count[2] ; Pixel_Renderer:render|VGA_G[3] ; DownCounter:clk_div_60hz|twoHZ ; DownCounter:clk_div_60hz|twoHZ ; 1.000        ; 0.283      ; 11.620     ;
 ; -10.338 ; VGA_sync:u_VGA_sync|h_count[2] ; Pixel_Renderer:render|VGA_B[3] ; DownCounter:clk_div_60hz|twoHZ ; DownCounter:clk_div_60hz|twoHZ ; 1.000        ; 0.283      ; 11.616     ;
 ; -10.335 ; VGA_sync:u_VGA_sync|v_count[4] ; Pixel_Renderer:render|VGA_R[0] ; DownCounter:clk_div_60hz|twoHZ ; DownCounter:clk_div_60hz|twoHZ ; 1.000        ; 0.256      ; 11.586     ;
-; -10.332 ; VGA_sync:u_VGA_sync|v_count[4] ; Pixel_Renderer:render|VGA_G[0] ; DownCounter:clk_div_60hz|twoHZ ; DownCounter:clk_div_60hz|twoHZ ; 1.000        ; 0.256      ; 11.583     ;
 ; -10.332 ; VGA_sync:u_VGA_sync|h_count[2] ; Pixel_Renderer:render|VGA_R[3] ; DownCounter:clk_div_60hz|twoHZ ; DownCounter:clk_div_60hz|twoHZ ; 1.000        ; 0.283      ; 11.610     ;
+; -10.332 ; VGA_sync:u_VGA_sync|v_count[4] ; Pixel_Renderer:render|VGA_G[0] ; DownCounter:clk_div_60hz|twoHZ ; DownCounter:clk_div_60hz|twoHZ ; 1.000        ; 0.256      ; 11.583     ;
 ; -10.330 ; VGA_sync:u_VGA_sync|h_count[2] ; Pixel_Renderer:render|VGA_G[2] ; DownCounter:clk_div_60hz|twoHZ ; DownCounter:clk_div_60hz|twoHZ ; 1.000        ; 0.283      ; 11.608     ;
 ; -10.329 ; VGA_sync:u_VGA_sync|h_count[2] ; Pixel_Renderer:render|VGA_B[2] ; DownCounter:clk_div_60hz|twoHZ ; DownCounter:clk_div_60hz|twoHZ ; 1.000        ; 0.283      ; 11.607     ;
 ; -10.322 ; VGA_sync:u_VGA_sync|h_count[2] ; Pixel_Renderer:render|VGA_R[2] ; DownCounter:clk_div_60hz|twoHZ ; DownCounter:clk_div_60hz|twoHZ ; 1.000        ; 0.283      ; 11.600     ;
@@ -1336,8 +1336,8 @@ No paths to report.
 ; -10.299 ; VGA_sync:u_VGA_sync|h_count[1] ; Pixel_Renderer:render|VGA_R[3] ; DownCounter:clk_div_60hz|twoHZ ; DownCounter:clk_div_60hz|twoHZ ; 1.000        ; 0.283      ; 11.577     ;
 ; -10.298 ; VGA_sync:u_VGA_sync|v_count[3] ; Pixel_Renderer:render|VGA_R[3] ; DownCounter:clk_div_60hz|twoHZ ; DownCounter:clk_div_60hz|twoHZ ; 1.000        ; 0.263      ; 11.556     ;
 ; -10.297 ; VGA_sync:u_VGA_sync|h_count[1] ; Pixel_Renderer:render|VGA_G[2] ; DownCounter:clk_div_60hz|twoHZ ; DownCounter:clk_div_60hz|twoHZ ; 1.000        ; 0.283      ; 11.575     ;
-; -10.296 ; VGA_sync:u_VGA_sync|v_count[3] ; Pixel_Renderer:render|VGA_G[2] ; DownCounter:clk_div_60hz|twoHZ ; DownCounter:clk_div_60hz|twoHZ ; 1.000        ; 0.263      ; 11.554     ;
 ; -10.296 ; VGA_sync:u_VGA_sync|h_count[1] ; Pixel_Renderer:render|VGA_B[2] ; DownCounter:clk_div_60hz|twoHZ ; DownCounter:clk_div_60hz|twoHZ ; 1.000        ; 0.283      ; 11.574     ;
+; -10.296 ; VGA_sync:u_VGA_sync|v_count[3] ; Pixel_Renderer:render|VGA_G[2] ; DownCounter:clk_div_60hz|twoHZ ; DownCounter:clk_div_60hz|twoHZ ; 1.000        ; 0.263      ; 11.554     ;
 ; -10.295 ; VGA_sync:u_VGA_sync|v_count[3] ; Pixel_Renderer:render|VGA_B[2] ; DownCounter:clk_div_60hz|twoHZ ; DownCounter:clk_div_60hz|twoHZ ; 1.000        ; 0.263      ; 11.553     ;
 ; -10.289 ; VGA_sync:u_VGA_sync|h_count[1] ; Pixel_Renderer:render|VGA_R[2] ; DownCounter:clk_div_60hz|twoHZ ; DownCounter:clk_div_60hz|twoHZ ; 1.000        ; 0.283      ; 11.567     ;
 ; -10.288 ; VGA_sync:u_VGA_sync|v_count[3] ; Pixel_Renderer:render|VGA_R[2] ; DownCounter:clk_div_60hz|twoHZ ; DownCounter:clk_div_60hz|twoHZ ; 1.000        ; 0.263      ; 11.546     ;
@@ -1346,17 +1346,17 @@ No paths to report.
 ; -10.278 ; VGA_sync:u_VGA_sync|h_count[2] ; Pixel_Renderer:render|VGA_B[0] ; DownCounter:clk_div_60hz|twoHZ ; DownCounter:clk_div_60hz|twoHZ ; 1.000        ; 0.250      ; 11.523     ;
 ; -10.245 ; VGA_sync:u_VGA_sync|h_count[1] ; Pixel_Renderer:render|VGA_B[0] ; DownCounter:clk_div_60hz|twoHZ ; DownCounter:clk_div_60hz|twoHZ ; 1.000        ; 0.250      ; 11.490     ;
 ; -10.241 ; VGA_sync:u_VGA_sync|h_count[4] ; Pixel_Renderer:render|VGA_G[3] ; DownCounter:clk_div_60hz|twoHZ ; DownCounter:clk_div_60hz|twoHZ ; 1.000        ; 0.283      ; 11.519     ;
-; -10.238 ; VGA_sync:u_VGA_sync|v_count[2] ; Pixel_Renderer:render|VGA_G[3] ; DownCounter:clk_div_60hz|twoHZ ; DownCounter:clk_div_60hz|twoHZ ; 1.000        ; 0.263      ; 11.496     ;
 ; -10.238 ; VGA_sync:u_VGA_sync|h_count[7] ; Pixel_Renderer:render|VGA_R[0] ; DownCounter:clk_div_60hz|twoHZ ; DownCounter:clk_div_60hz|twoHZ ; 1.000        ; 0.250      ; 11.483     ;
+; -10.238 ; VGA_sync:u_VGA_sync|v_count[2] ; Pixel_Renderer:render|VGA_G[3] ; DownCounter:clk_div_60hz|twoHZ ; DownCounter:clk_div_60hz|twoHZ ; 1.000        ; 0.263      ; 11.496     ;
 ; -10.237 ; VGA_sync:u_VGA_sync|h_count[4] ; Pixel_Renderer:render|VGA_B[3] ; DownCounter:clk_div_60hz|twoHZ ; DownCounter:clk_div_60hz|twoHZ ; 1.000        ; 0.283      ; 11.515     ;
-; -10.235 ; VGA_sync:u_VGA_sync|v_count[6] ; Pixel_Renderer:render|VGA_R[0] ; DownCounter:clk_div_60hz|twoHZ ; DownCounter:clk_div_60hz|twoHZ ; 1.000        ; 0.256      ; 11.486     ;
 ; -10.235 ; VGA_sync:u_VGA_sync|h_count[7] ; Pixel_Renderer:render|VGA_G[0] ; DownCounter:clk_div_60hz|twoHZ ; DownCounter:clk_div_60hz|twoHZ ; 1.000        ; 0.250      ; 11.480     ;
+; -10.235 ; VGA_sync:u_VGA_sync|v_count[6] ; Pixel_Renderer:render|VGA_R[0] ; DownCounter:clk_div_60hz|twoHZ ; DownCounter:clk_div_60hz|twoHZ ; 1.000        ; 0.256      ; 11.486     ;
 ; -10.234 ; VGA_sync:u_VGA_sync|v_count[2] ; Pixel_Renderer:render|VGA_B[3] ; DownCounter:clk_div_60hz|twoHZ ; DownCounter:clk_div_60hz|twoHZ ; 1.000        ; 0.263      ; 11.492     ;
 ; -10.232 ; VGA_sync:u_VGA_sync|v_count[6] ; Pixel_Renderer:render|VGA_G[0] ; DownCounter:clk_div_60hz|twoHZ ; DownCounter:clk_div_60hz|twoHZ ; 1.000        ; 0.256      ; 11.483     ;
 ; -10.231 ; VGA_sync:u_VGA_sync|h_count[4] ; Pixel_Renderer:render|VGA_R[3] ; DownCounter:clk_div_60hz|twoHZ ; DownCounter:clk_div_60hz|twoHZ ; 1.000        ; 0.283      ; 11.509     ;
 ; -10.229 ; VGA_sync:u_VGA_sync|h_count[4] ; Pixel_Renderer:render|VGA_G[2] ; DownCounter:clk_div_60hz|twoHZ ; DownCounter:clk_div_60hz|twoHZ ; 1.000        ; 0.283      ; 11.507     ;
-; -10.228 ; VGA_sync:u_VGA_sync|v_count[2] ; Pixel_Renderer:render|VGA_R[3] ; DownCounter:clk_div_60hz|twoHZ ; DownCounter:clk_div_60hz|twoHZ ; 1.000        ; 0.263      ; 11.486     ;
 ; -10.228 ; VGA_sync:u_VGA_sync|h_count[4] ; Pixel_Renderer:render|VGA_B[2] ; DownCounter:clk_div_60hz|twoHZ ; DownCounter:clk_div_60hz|twoHZ ; 1.000        ; 0.283      ; 11.506     ;
+; -10.228 ; VGA_sync:u_VGA_sync|v_count[2] ; Pixel_Renderer:render|VGA_R[3] ; DownCounter:clk_div_60hz|twoHZ ; DownCounter:clk_div_60hz|twoHZ ; 1.000        ; 0.263      ; 11.486     ;
 ; -10.226 ; VGA_sync:u_VGA_sync|v_count[2] ; Pixel_Renderer:render|VGA_G[2] ; DownCounter:clk_div_60hz|twoHZ ; DownCounter:clk_div_60hz|twoHZ ; 1.000        ; 0.263      ; 11.484     ;
 ; -10.225 ; VGA_sync:u_VGA_sync|v_count[2] ; Pixel_Renderer:render|VGA_B[2] ; DownCounter:clk_div_60hz|twoHZ ; DownCounter:clk_div_60hz|twoHZ ; 1.000        ; 0.263      ; 11.483     ;
 ; -10.221 ; VGA_sync:u_VGA_sync|h_count[4] ; Pixel_Renderer:render|VGA_R[2] ; DownCounter:clk_div_60hz|twoHZ ; DownCounter:clk_div_60hz|twoHZ ; 1.000        ; 0.283      ; 11.499     ;
@@ -1369,8 +1369,8 @@ No paths to report.
 ; -10.199 ; VGA_sync:u_VGA_sync|v_count[9] ; Pixel_Renderer:render|VGA_R[0] ; DownCounter:clk_div_60hz|twoHZ ; DownCounter:clk_div_60hz|twoHZ ; 1.000        ; 0.256      ; 11.450     ;
 ; -10.196 ; VGA_sync:u_VGA_sync|v_count[9] ; Pixel_Renderer:render|VGA_G[0] ; DownCounter:clk_div_60hz|twoHZ ; DownCounter:clk_div_60hz|twoHZ ; 1.000        ; 0.256      ; 11.447     ;
 ; -10.196 ; VGA_sync:u_VGA_sync|v_count[5] ; Pixel_Renderer:render|VGA_R[3] ; DownCounter:clk_div_60hz|twoHZ ; DownCounter:clk_div_60hz|twoHZ ; 1.000        ; 0.263      ; 11.454     ;
-; -10.194 ; VGA_sync:u_VGA_sync|v_count[5] ; Pixel_Renderer:render|VGA_G[2] ; DownCounter:clk_div_60hz|twoHZ ; DownCounter:clk_div_60hz|twoHZ ; 1.000        ; 0.263      ; 11.452     ;
 ; -10.194 ; VGA_sync:u_VGA_sync|h_count[3] ; Pixel_Renderer:render|VGA_R[3] ; DownCounter:clk_div_60hz|twoHZ ; DownCounter:clk_div_60hz|twoHZ ; 1.000        ; 0.283      ; 11.472     ;
+; -10.194 ; VGA_sync:u_VGA_sync|v_count[5] ; Pixel_Renderer:render|VGA_G[2] ; DownCounter:clk_div_60hz|twoHZ ; DownCounter:clk_div_60hz|twoHZ ; 1.000        ; 0.263      ; 11.452     ;
 ; -10.193 ; VGA_sync:u_VGA_sync|v_count[5] ; Pixel_Renderer:render|VGA_B[2] ; DownCounter:clk_div_60hz|twoHZ ; DownCounter:clk_div_60hz|twoHZ ; 1.000        ; 0.263      ; 11.451     ;
 ; -10.192 ; VGA_sync:u_VGA_sync|h_count[3] ; Pixel_Renderer:render|VGA_G[2] ; DownCounter:clk_div_60hz|twoHZ ; DownCounter:clk_div_60hz|twoHZ ; 1.000        ; 0.283      ; 11.470     ;
 ; -10.191 ; VGA_sync:u_VGA_sync|h_count[3] ; Pixel_Renderer:render|VGA_B[2] ; DownCounter:clk_div_60hz|twoHZ ; DownCounter:clk_div_60hz|twoHZ ; 1.000        ; 0.283      ; 11.469     ;
@@ -1384,15 +1384,15 @@ No paths to report.
 ; -10.138 ; VGA_sync:u_VGA_sync|v_count[4] ; Pixel_Renderer:render|VGA_G[3] ; DownCounter:clk_div_60hz|twoHZ ; DownCounter:clk_div_60hz|twoHZ ; 1.000        ; 0.263      ; 11.396     ;
 ; -10.137 ; VGA_sync:u_VGA_sync|v_count[8] ; Pixel_Renderer:render|VGA_R[0] ; DownCounter:clk_div_60hz|twoHZ ; DownCounter:clk_div_60hz|twoHZ ; 1.000        ; 0.256      ; 11.388     ;
 ; -10.136 ; VGA_sync:u_VGA_sync|h_count[6] ; Pixel_Renderer:render|VGA_R[3] ; DownCounter:clk_div_60hz|twoHZ ; DownCounter:clk_div_60hz|twoHZ ; 1.000        ; 0.283      ; 11.414     ;
+; -10.134 ; VGA_sync:u_VGA_sync|h_count[6] ; Pixel_Renderer:render|VGA_G[2] ; DownCounter:clk_div_60hz|twoHZ ; DownCounter:clk_div_60hz|twoHZ ; 1.000        ; 0.283      ; 11.412     ;
 ; -10.134 ; VGA_sync:u_VGA_sync|v_count[8] ; Pixel_Renderer:render|VGA_G[0] ; DownCounter:clk_div_60hz|twoHZ ; DownCounter:clk_div_60hz|twoHZ ; 1.000        ; 0.256      ; 11.385     ;
 ; -10.134 ; VGA_sync:u_VGA_sync|v_count[4] ; Pixel_Renderer:render|VGA_B[3] ; DownCounter:clk_div_60hz|twoHZ ; DownCounter:clk_div_60hz|twoHZ ; 1.000        ; 0.263      ; 11.392     ;
-; -10.134 ; VGA_sync:u_VGA_sync|h_count[6] ; Pixel_Renderer:render|VGA_G[2] ; DownCounter:clk_div_60hz|twoHZ ; DownCounter:clk_div_60hz|twoHZ ; 1.000        ; 0.283      ; 11.412     ;
 ; -10.133 ; VGA_sync:u_VGA_sync|h_count[9] ; Pixel_Renderer:render|VGA_R[0] ; DownCounter:clk_div_60hz|twoHZ ; DownCounter:clk_div_60hz|twoHZ ; 1.000        ; 0.250      ; 11.378     ;
 ; -10.133 ; VGA_sync:u_VGA_sync|h_count[6] ; Pixel_Renderer:render|VGA_B[2] ; DownCounter:clk_div_60hz|twoHZ ; DownCounter:clk_div_60hz|twoHZ ; 1.000        ; 0.283      ; 11.411     ;
 ; -10.130 ; VGA_sync:u_VGA_sync|h_count[9] ; Pixel_Renderer:render|VGA_G[0] ; DownCounter:clk_div_60hz|twoHZ ; DownCounter:clk_div_60hz|twoHZ ; 1.000        ; 0.250      ; 11.375     ;
 ; -10.128 ; VGA_sync:u_VGA_sync|v_count[4] ; Pixel_Renderer:render|VGA_R[3] ; DownCounter:clk_div_60hz|twoHZ ; DownCounter:clk_div_60hz|twoHZ ; 1.000        ; 0.263      ; 11.386     ;
-; -10.126 ; VGA_sync:u_VGA_sync|v_count[4] ; Pixel_Renderer:render|VGA_G[2] ; DownCounter:clk_div_60hz|twoHZ ; DownCounter:clk_div_60hz|twoHZ ; 1.000        ; 0.263      ; 11.384     ;
 ; -10.126 ; VGA_sync:u_VGA_sync|h_count[6] ; Pixel_Renderer:render|VGA_R[2] ; DownCounter:clk_div_60hz|twoHZ ; DownCounter:clk_div_60hz|twoHZ ; 1.000        ; 0.283      ; 11.404     ;
+; -10.126 ; VGA_sync:u_VGA_sync|v_count[4] ; Pixel_Renderer:render|VGA_G[2] ; DownCounter:clk_div_60hz|twoHZ ; DownCounter:clk_div_60hz|twoHZ ; 1.000        ; 0.263      ; 11.384     ;
 ; -10.125 ; VGA_sync:u_VGA_sync|v_count[4] ; Pixel_Renderer:render|VGA_B[2] ; DownCounter:clk_div_60hz|twoHZ ; DownCounter:clk_div_60hz|twoHZ ; 1.000        ; 0.263      ; 11.383     ;
 ; -10.123 ; VGA_sync:u_VGA_sync|h_count[5] ; Pixel_Renderer:render|VGA_G[3] ; DownCounter:clk_div_60hz|twoHZ ; DownCounter:clk_div_60hz|twoHZ ; 1.000        ; 0.283      ; 11.401     ;
 ; -10.119 ; VGA_sync:u_VGA_sync|h_count[5] ; Pixel_Renderer:render|VGA_B[3] ; DownCounter:clk_div_60hz|twoHZ ; DownCounter:clk_div_60hz|twoHZ ; 1.000        ; 0.283      ; 11.397     ;
@@ -3521,7 +3521,7 @@ No non-DPA dedicated SERDES Receiver circuitry present in device or used in desi
 Info: *******************************************************************
 Info: Running Quartus II 64-Bit TimeQuest Timing Analyzer
     Info: Version 13.1.0 Build 162 10/23/2013 SJ Web Edition
-    Info: Processing started: Wed Jun 17 11:16:22 2026
+    Info: Processing started: Wed Jun 24 10:11:05 2026
 Info: Command: quartus_sta Flak_VHDL -c Flak_VHDL
 Info: qsta_default_script.tcl version: #1
 Info (20030): Parallel compilation is enabled and will use 16 of the 32 processors detected
@@ -3612,8 +3612,8 @@ Info (332146): Worst-case minimum pulse width slack is -3.000
 Info (332102): Design is not fully constrained for setup requirements
 Info (332102): Design is not fully constrained for hold requirements
 Info: Quartus II 64-Bit TimeQuest Timing Analyzer was successful. 0 errors, 4 warnings
-    Info: Peak virtual memory: 4886 megabytes
-    Info: Processing ended: Wed Jun 17 11:16:26 2026
+    Info: Peak virtual memory: 4865 megabytes
+    Info: Processing ended: Wed Jun 24 10:11:09 2026
     Info: Elapsed time: 00:00:04
     Info: Total CPU time (on all processors): 00:00:04
 

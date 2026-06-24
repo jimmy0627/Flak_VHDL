@@ -25,7 +25,7 @@ entity Flak_VHDL is
 end Flak_VHDL;
 
 architecture a of Flak_VHDL is
-    -- 宣告 VGA_sync
+    -- Declare VGA_sync
     component VGA_sync is   
         port(
             CLOCK, RESET : in std_logic;
@@ -35,7 +35,7 @@ architecture a of Flak_VHDL is
         );
     end component;
     
-    -- 宣告 Game_Logic
+    -- Declare Game_Logic
     component Game_Logic is
         port(
             clk_50        : in  std_logic;
@@ -53,7 +53,7 @@ architecture a of Flak_VHDL is
         );
     end component;
 
-    -- 宣告 pixel_Renderer
+    -- Declare pixel_Renderer
     component pixel_Renderer is
 	    port(
             vga_clk      : in  std_logic;
@@ -73,7 +73,7 @@ architecture a of Flak_VHDL is
         );
 	end component;
     
-    -- 宣告 DownCounter
+    -- Declare DownCounter
     component DownCounter is
         generic( FREQ_HZ : integer );
         port(
@@ -83,7 +83,7 @@ architecture a of Flak_VHDL is
         );
     end component;
 
-    -- 宣告 Seveninput
+    -- Declare Seveninput
     component Seveninput is
         port (
             bcd     : IN  std_logic_vector (3 downto 0);
@@ -91,7 +91,7 @@ architecture a of Flak_VHDL is
         );
     end component;
 
-    -- 內部連線 Signal 宣告
+    -- Internal signal declarations
     signal video_on  : std_logic;
     signal sig_angle : integer;
     signal sig_px    : integer;
@@ -100,19 +100,19 @@ architecture a of Flak_VHDL is
 	signal row      : integer range 0 to 524;
     signal col      : integer range 0 to 799;
 
-    -- 砲彈與LEDG內部訊號
+    -- Bullet and LEDG internal signals
     signal sig_bx      : integer;
     signal sig_by      : integer;
     signal sig_bactive : std_logic;
     signal sig_gameover: std_logic;
     signal sig_ledg    : std_logic_vector(9 downto 0);
 
-    -- BCD 分數訊號
+    -- BCD score signals
     signal sig_bcd0, sig_bcd1, sig_bcd2, sig_bcd3 : std_logic_vector(3 downto 0);
     signal hex0_seg, hex1_seg, hex2_seg, hex3_seg : std_logic_vector(0 to 6);
 
 begin
-    -- 除頻器
+    -- Clock divider
     clk_div_60hz : DownCounter
     generic map( FREQ_HZ => 25_000_000)
     port map(
@@ -171,7 +171,7 @@ begin
         VGA_B        => VGA_B
 	);
 
-    -- 七段顯示器實例化
+    -- Seven-segment display instantiation
     u_hex0 : Seveninput
     port map(
         bcd     => sig_bcd0,
@@ -196,9 +196,9 @@ begin
         display => hex3_seg
     );
 
-    -- 將七段顯示器的 7-bit 段碼連接至 8-bit HEX 輸出 (小數點不亮)
-    -- 注意：DE0 的 HEX 腳位通常是 a=bit0, b=bit1... g=bit6
-    -- Seveninput 輸出 display 是 (0 to 6)，即 display(0)=a, display(1)=b...
+    -- Connect 7-bit segment codes to 8-bit HEX output (Decimal Point off)
+    -- Note: DE0 HEX pins are usually a=bit0, b=bit1... g=bit6
+    -- Seveninput output 'display' is (0 to 6), where display(0)=a, display(1)=b...
     HEX0(0) <= hex0_seg(0);
     HEX0(1) <= hex0_seg(1);
     HEX0(2) <= hex0_seg(2);

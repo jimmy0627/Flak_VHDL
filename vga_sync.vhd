@@ -26,7 +26,7 @@ BEGIN
 			v_count <= 0;
      ELSIF CLOCK'EVENT AND CLOCK='1' THEN 
          IF h_count = 799 then h_count<=0; 
-			-- 當水平掃描完成一行，垂直計數器 + 1
+			-- Increment vertical counter when horizontal scan completes a row
               if v_count = 524 then
                  v_count <= 0;
               else

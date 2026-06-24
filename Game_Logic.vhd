@@ -9,8 +9,8 @@ entity Game_Logic is
     port(
         clk_50        : in  std_logic;
         reset_n       : in  std_logic; -- KEY(0) reset, active low
-        PS2_KBCLK     : in  std_logic; -- PS/2 
-        PS2_KBDAT     : in  std_logic; -- PS/2 
+        PS2_KBCLK     : in  std_logic; -- PS/2 keyboard clock
+        PS2_KBDAT     : in  std_logic; -- PS/2 keyboard data
         turret_angle  : out integer;
         planex, planey: out integer;
         bullet_x      : out integer;
@@ -48,8 +48,8 @@ architecture a of Game_Logic is
 
     -- SIN/COS LUT for angle to vector calculation
     type lut_type is array (0 to 90) of integer;
-    -- 1頩(0頠0頠雓6鞊航荔
-    -- thers=>0 頩瘙控隡敞豰刈殉等x=vy=0)
+    -- Define angle LUT type (0 to 90 degrees, values scaled by 256 for integer math)
+    -- Using precise SIN values to avoid errors for non-multiples of 10 degrees
     constant SIN_LUT : lut_type := (
           0,   4,   9,  13,  18,  22,  27,  31,  36,  40,   -- 0-9
          44,  49,  53,  58,  62,  66,  71,  75,  79,  83,   -- 10-19
@@ -118,8 +118,8 @@ architecture a of Game_Logic is
 
     signal ledg_normal : std_logic_vector(9 downto 0);
     signal ledg_scanner : std_logic_vector(9 downto 0);
-    signal game_tick_prev : std_logic := '0'; -- 頦瞏
-    signal code_new_prev  : std_logic := '0'; -- 頦蹇
+    signal game_tick_prev : std_logic := '0'; -- Record previous game_tick state
+    signal code_new_prev  : std_logic := '0'; -- Record previous code_new state
 
 begin
     -- Port assignments
@@ -234,12 +234,12 @@ begin
             is_e0             <= '0';
             is_break          <= '0';
             game_tick_prev    <= '0';
-            -- 撘瑕撠code_new_prev 閮剔 '1'嚗Ⅱ靽Reset 敺蝚砌望
-            -- 喃蝙 code_new '1'嚗瑕 (code_new = '1' and code_new_prev = '0') 銋憭望
+            -- Initialize code_new_prev to '1'
+            -- Ensure edge detection (code_new='1' and code_new_prev='0') works for the first key after reset
             code_new_prev     <= '1';
             
         elsif rising_edge(clk_50) then
-            -- 蹇氐
+            -- Update previous states
             game_tick_prev <= game_tick;
             code_new_prev  <= code_new;
 
@@ -277,7 +277,7 @@ begin
                                             bullet_x_int      <= PIVOT_X;
                                             bullet_y_int      <= PIVOT_Y;
                                             
-                                            -- 殷賡蹇(0-90 刻
+                                            -- Calculate final shot angle (clamped between 0 and 90 degrees)
                                             if (turret_angle_int + spread_angle) < 0 then
                                                 final_angle <= 0;
                                             elsif (turret_angle_int + spread_angle) > 90 then
@@ -285,7 +285,7 @@ begin
                                             else
                                                 final_angle <= turret_angle_int + spread_angle;
                                             end if;
-                                            -- 殉瞉
+                                            -- Decrement ammo after firing
                                             if ammo > 0 then
                                                 ammo <= ammo - 1;
                                             end if;
@@ -301,25 +301,25 @@ begin
                 end if;
             end if;
 
-            -- 賹撞殷
+            -- Initialize bullet velocity
             if bullet_active_int = '1' and bullet_vx = 0 and bullet_vy = 0 then
                 bullet_vx <= (6 * COS_LUT(final_angle)) / 256;
                 bullet_vy <= (6 * SIN_LUT(final_angle)) / 256;
             end if;
 
-            -- 叟瞍脣寡謒芣
+            -- Reset velocity when bullet is inactive
             if bullet_active_int = '0' then
                 bullet_vx <= 0;
                 bullet_vy <= 0;
             end if;
 
             -- 2. Frame-rate dependent updates (60Hz)
-            -- 頛舀寧蹎梢me_tick 頦1' 殉玫皝株賹寡
+            -- Use game_tick for synchronous logic updates at 60Hz
             if game_tick = '1' and game_tick_prev = '0' then
                 if game_over = '0' then
-                    -- A. Update airplane position (蝬咯減
+                    -- A. Update airplane position (flying from right to left)
                     planex_int <= planex_int - 1;
-                    if planex_int <= -64 then -- 謑株頩
+                    if planex_int <= -64 then -- Airplane flew off left boundary, game over
                         game_over <= '1';
                     end if;
 
@@ -340,9 +340,9 @@ begin
                            (bullet_y_int >= planey_int) and (bullet_y_int <= planey_int + 40) then
                             -- Hit!
                             bullet_active_int <= '0';
-                            -- 謢箄祇謕謍減雓堆蹓澗擗
+                            -- Reset airplane position to the right side after a hit
                             planex_int <= 640; -- Reset airplane
-                            -- 輯撒rand_counter 嚗30-210 玟
+                            -- Use rand_counter to generate a new random height (30-210)
                             planey_int <= 30 + (rand_counter mod 181); 
                             
                             -- Score increment (BCD counting: bcd3 bcd2 bcd1 bcd0)

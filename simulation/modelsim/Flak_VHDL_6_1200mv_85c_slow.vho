@@ -16,7 +16,7 @@
 -- PROGRAM "Quartus II 64-Bit"
 -- VERSION "Version 13.1.0 Build 162 10/23/2013 SJ Web Edition"
 
--- DATE "06/17/2026 11:16:29"
+-- DATE "06/24/2026 10:11:11"
 
 -- 
 -- Device: Altera EP3C16F484C6 Package FBGA484
@@ -39,16 +39,16 @@ ENTITY 	Flak_VHDL IS
 	PS2_KBCLK : IN std_logic;
 	PS2_KBDAT : IN std_logic;
 	KEY : IN std_logic_vector(2 DOWNTO 0);
-	VGA_HS : BUFFER std_logic;
-	VGA_VS : BUFFER std_logic;
-	VGA_R : BUFFER std_logic_vector(3 DOWNTO 0);
-	VGA_G : BUFFER std_logic_vector(3 DOWNTO 0);
-	VGA_B : BUFFER std_logic_vector(3 DOWNTO 0);
-	LEDG : BUFFER std_logic_vector(9 DOWNTO 0);
-	HEX0 : BUFFER std_logic_vector(7 DOWNTO 0);
-	HEX1 : BUFFER std_logic_vector(7 DOWNTO 0);
-	HEX2 : BUFFER std_logic_vector(7 DOWNTO 0);
-	HEX3 : BUFFER std_logic_vector(7 DOWNTO 0)
+	VGA_HS : OUT std_logic;
+	VGA_VS : OUT std_logic;
+	VGA_R : OUT std_logic_vector(3 DOWNTO 0);
+	VGA_G : OUT std_logic_vector(3 DOWNTO 0);
+	VGA_B : OUT std_logic_vector(3 DOWNTO 0);
+	LEDG : OUT std_logic_vector(9 DOWNTO 0);
+	HEX0 : OUT std_logic_vector(7 DOWNTO 0);
+	HEX1 : OUT std_logic_vector(7 DOWNTO 0);
+	HEX2 : OUT std_logic_vector(7 DOWNTO 0);
+	HEX3 : OUT std_logic_vector(7 DOWNTO 0)
 	);
 END Flak_VHDL;
 
@@ -2699,6 +2699,9 @@ SIGNAL \u_hex3|Mux6~0_combout\ : std_logic;
 SIGNAL \game_control|u_ps2|debounce_ps2_data|flipflops\ : std_logic_vector(1 DOWNTO 0);
 SIGNAL \game_control|u_ps2|debounce_ps2_data|counter_out\ : std_logic_vector(8 DOWNTO 0);
 SIGNAL \clk_div_60hz|div_cnt\ : std_logic_vector(25 DOWNTO 0);
+SIGNAL \render|VGA_B\ : std_logic_vector(3 DOWNTO 0);
+SIGNAL \render|VGA_G\ : std_logic_vector(3 DOWNTO 0);
+SIGNAL \render|VGA_R\ : std_logic_vector(3 DOWNTO 0);
 SIGNAL \game_control|turret_angle_int\ : std_logic_vector(6 DOWNTO 0);
 SIGNAL \game_control|scanner_pos\ : std_logic_vector(3 DOWNTO 0);
 SIGNAL \game_control|scanner_clk_div\ : std_logic_vector(2 DOWNTO 0);
@@ -2724,9 +2727,6 @@ SIGNAL \game_control|u_ps2|debounce_ps2_clk|flipflops\ : std_logic_vector(1 DOWN
 SIGNAL \game_control|u_ps2|debounce_ps2_clk|counter_out\ : std_logic_vector(8 DOWNTO 0);
 SIGNAL \u_VGA_sync|v_count\ : std_logic_vector(9 DOWNTO 0);
 SIGNAL \u_VGA_sync|h_count\ : std_logic_vector(9 DOWNTO 0);
-SIGNAL \render|VGA_B\ : std_logic_vector(3 DOWNTO 0);
-SIGNAL \render|VGA_G\ : std_logic_vector(3 DOWNTO 0);
-SIGNAL \render|VGA_R\ : std_logic_vector(3 DOWNTO 0);
 SIGNAL \ALT_INV_CLOCK_50~inputclkctrl_outclk\ : std_logic;
 SIGNAL \game_control|u_ps2|debounce_ps2_clk|ALT_INV_result~clkctrl_outclk\ : std_logic;
 SIGNAL \game_control|u_ps2|debounce_ps2_clk|ALT_INV_result~q\ : std_logic;

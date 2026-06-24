@@ -1,5 +1,5 @@
 Fitter report for Flak_VHDL
-Wed Jun 17 11:16:16 2026
+Wed Jun 24 10:10:59 2026
 Quartus II 64-Bit Version 13.1.0 Build 162 10/23/2013 SJ Web Edition
 
 
@@ -71,7 +71,7 @@ applicable agreement for further details.
 +---------------------------------------------------------------------------------+
 ; Fitter Summary                                                                  ;
 +------------------------------------+--------------------------------------------+
-; Fitter Status                      ; Successful - Wed Jun 17 11:16:16 2026      ;
+; Fitter Status                      ; Successful - Wed Jun 24 10:10:59 2026      ;
 ; Quartus II 64-Bit Version          ; 13.1.0 Build 162 10/23/2013 SJ Web Edition ;
 ; Revision Name                      ; Flak_VHDL                                  ;
 ; Top-level Entity Name              ; Flak_VHDL                                  ;
@@ -157,13 +157,13 @@ applicable agreement for further details.
 ; Number detected on machine ; 32          ;
 ; Maximum allowed            ; 16          ;
 ;                            ;             ;
-; Average used               ; 4.64        ;
+; Average used               ; 2.50        ;
 ; Maximum used               ; 16          ;
 ;                            ;             ;
 ; Usage by Processor         ; % Time Used ;
 ;     Processor 1            ; 100.0%      ;
-;     Processors 2-4         ;  35.7%      ;
-;     Processors 5-16        ;  21.4%      ;
+;     Processors 2-4         ;  21.4%      ;
+;     Processors 5-16        ;   7.1%      ;
 ;     Processors 17-32       ;   0.0%      ;
 +----------------------------+-------------+
 
@@ -3416,12 +3416,12 @@ Info (170195): Router estimated average interconnect usage is 1% of the availabl
 Info (170194): Fitter routing operations ending: elapsed time is 00:00:03
 Info (170199): The Fitter performed an Auto Fit compilation.  Optimizations were skipped to reduce compilation time.
     Info (170201): Optimizations that may affect the design's routability were skipped
-Info (11888): Total time spent on timing analysis during the Fitter is 2.33 seconds.
+Info (11888): Total time spent on timing analysis during the Fitter is 1.92 seconds.
 Info (334003): Started post-fitting delay annotation
 Info (334004): Delay annotation completed successfully
 Info (334003): Started post-fitting delay annotation
 Info (334004): Delay annotation completed successfully
-Info (11218): Fitter post-fit operations ending: elapsed time is 00:00:01
+Info (11218): Fitter post-fit operations ending: elapsed time is 00:00:02
 Warning (171167): Found invalid Fitter assignments. See the Ignored Assignments panel in the Fitter Compilation Report for more information.
 Warning (169177): 6 pins must meet Altera requirements for 3.3-, 3.0-, and 2.5-V interfaces. For more information, refer to AN 447: Interfacing Cyclone III Devices with 3.3/3.0/2.5-V LVTTL/LVCMOS I/O Systems.
     Info (169178): Pin KEY[1] uses I/O standard 3.3-V LVTTL at G3
@@ -3432,10 +3432,10 @@ Warning (169177): 6 pins must meet Altera requirements for 3.3-, 3.0-, and 2.5-V
     Info (169178): Pin PS2_KBDAT uses I/O standard 3.3-V LVTTL at P21
 Info (144001): Generated suppressed messages file D:/VS new clone/Flak_VHDL/output_files/Flak_VHDL.fit.smsg
 Info: Quartus II 64-Bit Fitter was successful. 0 errors, 196 warnings
-    Info: Peak virtual memory: 6216 megabytes
-    Info: Processing ended: Wed Jun 17 11:16:17 2026
-    Info: Elapsed time: 00:00:16
-    Info: Total CPU time (on all processors): 00:00:23
+    Info: Peak virtual memory: 6209 megabytes
+    Info: Processing ended: Wed Jun 24 10:10:59 2026
+    Info: Elapsed time: 00:00:17
+    Info: Total CPU time (on all processors): 00:00:21
 
 
 +----------------------------+
